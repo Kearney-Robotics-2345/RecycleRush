@@ -1,0 +1,30 @@
+
+	autoCan() {
+		while(camera.getValue() != targetValue)
+			motor1.rotate()
+			motor2.rotate()
+			motor3.rotate()
+			motor4.rotate()
+			
+		motor1.set(distance)
+		motor2.set(distance)  
+		motor3.set(distance)
+		motor4.set(distance)
+		
+		smackDatCan()
+	}
+ 
+	autoCrate {
+		while(camera.getValue() != targetValue)
+			motor1.rotate()
+			motor2.rotate()
+			motor3.rotate()
+			motor4.rotate()
+		motor1.set(distance)
+		motor2.set(distance)  
+		motor3.set(distance)
+		motor4.set(distance)
+		
+		align(yCrate)
+		grab(yCrate)
+	}
