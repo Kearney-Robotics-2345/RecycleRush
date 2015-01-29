@@ -34,8 +34,8 @@ public class RobotMap {
     public static Talon downRightDrive = new Talon(0);
     
     public static Encoder upLeftEnc = new Encoder(6, 7);
-    public static Encoder upRightEnc = new Encoder(4, 5);
-    public static Encoder downLeftEnc = new Encoder(2, 3);
+    public static Encoder upRightEnc = new Encoder(2, 3);
+    public static Encoder downLeftEnc = new Encoder(4, 5);
     public static Encoder downRightEnc = new Encoder(0, 1);
     
     public static Victor elevator1 = new Victor(8);
