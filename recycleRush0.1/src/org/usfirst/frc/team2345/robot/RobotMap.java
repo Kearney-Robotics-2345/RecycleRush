@@ -45,4 +45,10 @@ public class RobotMap {
     
     public static DigitalInput elevatorSwtich1 = new DigitalInput(11);
     public static DigitalInput elevatorSwitch2 = new DigitalInput(12);
+    
+    public static DigitalInput uLSwitch = new DigitalInput(13);
+    public static DigitalInput uRSwitch = new DigitalInput(14);
+    public static DigitalInput dLSwitch = new DigitalInput(15);
+    public static DigitalInput dRSwitch = new DigitalInput(16);
+    
 }

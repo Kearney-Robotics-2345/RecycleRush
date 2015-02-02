@@ -71,8 +71,8 @@ public class swerveDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	double fwd = stick.getX() * -1; // stick.getThrottle();(forward/reverse command, -1 to +1)
- 		double str = stick.getY(); // stick.getThrottle();(strafe right command, -1 to +1)
+    	double str = stick.getY(); // stick.getThrottle();(forward/reverse command, -1 to +1)
+ 		double fwd = stick.getX() * -1; // stick.getThrottle();(strafe right command, -1 to +1)
  		double rcw = schtick.getX(); // schtick.getThrottle();(rotate clockwise command, -1 to +1)
  		
  		//math for finding the degrees of all the wheels and their vectors
@@ -103,28 +103,28 @@ public class swerveDrive extends Command {
  		//Do we really need this?
  		//|
  		//V
- 		/*if (rcw != 0) {
+ 		if (Math.abs(rcw) > 0.1) {
 			wheelSpeedTwo *= -1;
 			wheelSpeedFour *= -1;
-		}*/
+		}
  			upLeftDrive.set(wheelSpeedTwo);
  	 		upRightDrive.set(wheelSpeedOne);
  	 		downLeftDrive.set(wheelSpeedThree);
  	 		downRightDrive.set(wheelSpeedFour);
  		
- 	 	if (rcw != 0 && fwd !=0) {
+ 	 	/*if (rcw != 0 && fwd !=0) {
  	 		if (rcw < -0.1) {
  	 			upRightDrive.set(wheelSpeedOne * 1.5);
- 	 			downRightDrive.set(wheelSpeedFour * 1.5);
+ 	 			downRightDrive.set(wheelSpeedFour * -1.5);
  	 			upLeftDrive.set(wheelSpeedTwo / -1.5);
  	 			
  	 			
  	 		} else if (rcw > 0.1) {
  	 			upLeftDrive.set(wheelSpeedTwo * 1.5);
- 	 			downLeftDrive.set(wheelSpeedThree * 1.5);
+ 	 			downLeftDrive.set(wheelSpeedThree * -1.5);
  	 			upRightDrive.set(wheelSpeedOne / -1.5);
  	 		}
- 	 	}
+ 	 	}*/
  		
  		SmartDashboard.putNumber("uL", (double) upLeftEnc.get());
  		SmartDashboard.putNumber("uR", (double) upRightEnc.get());
@@ -156,10 +156,62 @@ public class swerveDrive extends Command {
  		double dRTfinal = Math.round(dRT * 1000) / 1000;*/
  		
  		
+ 		
  			upRightTurn.set(uRT);				
  			upLeftTurn.set(uLT);
  			downLeftTurn.set(dLT);
  			downRightTurn.set(dRT);
+ 			
+ 			
+ 			
+ 		if (schtick.getRawButton(7)) {
+ 			upRightTurn.set(1);
+ 			upLeftTurn.set(1);
+ 			downLeftTurn.set(1);
+ 			downRightTurn.set(1);
+ 			boolean uLPressed = false;
+ 			boolean uRPressed = false;
+ 			boolean dLPressed = false;
+ 			boolean dRPressed = false;
+ 			boolean isComplete = false;
+ 			while (isComplete != true) {
+ 				if (RobotMap.uLSwitch.get() == true) {
+ 					uLPressed = true;
+ 					upLeftTurn.set(0);
+ 					upLeftEnc.reset();
+ 				}
+ 				if (RobotMap.uRSwitch.get() == true) {
+ 					uRPressed = true;
+ 					upRightTurn.set(0);
+ 					upRightEnc.reset();
+ 				}
+ 				if (RobotMap.dLSwitch.get() == true) {
+ 					dLPressed = true;
+ 					downLeftTurn.set(0);
+ 					downLeftEnc.reset();
+ 				}
+ 				if (RobotMap.dRSwitch.get() == true) {
+ 					dRPressed = true;
+ 					downRightTurn.set(0);
+ 					downRightEnc.reset();
+ 				}
+ 				if (uLPressed == true && uRPressed == true && dLPressed == true && dRPressed == true) {
+ 					isComplete = true;
+ 				}
+ 			}
+ 		}
+ 			
+ 		
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
  			
  			
  			
