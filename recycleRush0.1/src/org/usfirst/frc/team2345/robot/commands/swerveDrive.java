@@ -216,4 +216,8 @@ public class swerveDrive extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+    
+    protected void imageProccessing() {
+    	
+    }
 }

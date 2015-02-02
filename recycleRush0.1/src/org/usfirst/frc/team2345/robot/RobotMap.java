@@ -23,7 +23,7 @@ public class RobotMap {
     // public static int rangefinderModule = 1;
 	//all turn motors initialize
     public static Victor upLeftTurn = new Victor(7);
-    public static Victor upRightTurn = new Victor(3);
+    public static Victor upRightTurn = new Victor(3);			
     public static Victor downLeftTurn = new Victor(5);
     public static Victor downRightTurn = new Victor(1);
     

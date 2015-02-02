@@ -1,4 +1,7 @@
-
+/*
+ * This code is not very clear as to what it does.
+ * Don't be afraid to over comment your code.  It really does help! 
+ */
 package org.usfirst.frc.team2345.robot.commands;
 
 import edu.wpi.first.wpilibj.Talon;
@@ -34,25 +37,55 @@ public class ExampleCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	upLeftDrive.set(1.0);
-    	upRightDrive.set(1.0);
-    	downRightDrive.set(1.0);
-    	downLeftDrive.set(1.0);
+    	//THIS IS AUTONOMOUS DEBUGGING STUFF
+    	double speed = 0.1;
+    	upLeftDrive.set(speed);
+    	upRightDrive.set(speed);
+    	downRightDrive.set(speed);
+    	downLeftDrive.set(speed);
     	Timer.delay(5);
+    	
     	upLeftDrive.set(0);
     	upRightDrive.set(0);
     	downRightDrive.set(0);
     	downLeftDrive.set(0);
     	Timer.delay(5);
-    	upLeftTurn.set(1.0);
-    	upRightTurn.set(1.0);
-    	downRightTurn.set(1.0);
-    	downLeftTurn.set(1.0);
+    	
+    	upLeftDrive.set(-speed);
+    	upRightDrive.set(-speed);
+    	downRightDrive.set(-speed);
+    	downLeftDrive.set(-speed);
     	Timer.delay(5);
+    	
+    	upLeftDrive.set(0);
+    	upRightDrive.set(0);
+    	downRightDrive.set(0);
+    	downLeftDrive.set(0);
+    	Timer.delay(5);
+    	
+    	upLeftTurn.set(speed);
+    	upRightTurn.set(speed);
+    	downRightTurn.set(speed);
+    	downLeftTurn.set(speed);
+    	Timer.delay(5);
+    	
     	upLeftTurn.set(0);
     	upRightTurn.set(0);
     	downRightTurn.set(0);
     	downLeftTurn.set(0);
+    	Timer.delay(5);
+    	
+    	upLeftTurn.set(-speed);
+    	upRightTurn.set(-speed);
+    	downRightTurn.set(-speed);
+    	downLeftTurn.set(-speed);
+    	Timer.delay(5);
+    	
+    	upLeftTurn.set(0);
+    	upRightTurn.set(0);
+    	downRightTurn.set(0);
+    	downLeftTurn.set(0);
+    	Timer.delay(5);
     	
     }
 
