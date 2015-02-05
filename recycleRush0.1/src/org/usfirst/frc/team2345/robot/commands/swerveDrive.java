@@ -20,11 +20,6 @@ import org.usfirst.frc.team2345.robot.RobotMap;
  */
 //Test Comment
 public class swerveDrive extends Command {
-	final double mult = 1.15278;
-	double uRT;
-	double uLT;
-	double dRT;
-	double dLT;
 	boolean commandStatus = false;
 	//enabling all the encoders
 	Talon upLeftDrive = RobotMap.upLeftDrive;
@@ -76,11 +71,6 @@ public class swerveDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	double upRightEncoder = upRightEnc.get() / mult;
-    	double upLeftEncoder = upLeftEnc.get() / mult;
-    	double downRightEncoder = downRightEnc.get() / mult;
-    	double downLeftEncoder = downLeftEnc.get() / mult;
-    	
     	double str = stick.getY(); // stick.getThrottle();(forward/reverse command, -1 to +1)
  		double fwd = stick.getX() * -1; // stick.getThrottle();(strafe right command, -1 to +1)
  		double rcw = schtick.getX(); // schtick.getThrottle();(rotate clockwise command, -1 to +1)
@@ -104,114 +94,10 @@ public class swerveDrive extends Command {
  		double wheelSpeedTwo = (max>1) ? ws2/max : ws2;
  		double wheelSpeedThree = (max>1) ? ws3/max : ws3;
  		double wheelSpeedFour = (max>1) ? ws4/max : ws4;
- 		double wheelAngleOne = ( C == 0 && B == 0) ? 0 : Math.toDegrees(Math.atan2(C,B));
- 		double wheelAngleTwo = ( D == 0 && B == 0) ? 0 : Math.toDegrees(Math.atan2(D,B));
- 		double wheelAngleThree = ( D == 0 && A == 0) ? 0 : Math.toDegrees(Math.atan2(D,A));
- 		double wheelAngleFour = ( C == 0 && A == 0) ? 0 : Math.toDegrees(Math.atan2(C,A));
- 		
- 		/*upRightEncoder %= 360;
- 		upLeftEncoder %= 360;
- 		downLeftEncoder %= 360;
- 		downRightEncoder %= 360;
- 		*/
- 		double wheelAngleOnePrime = 360-wheelAngleOne <= upRightEncoder /*WheelAngleOne*/ ? -(360 - wheelAngleOne) : wheelAngleOne;
- 		double wheelAngleTwoPrime = 360-wheelAngleTwo <= upLeftEncoder /*WheelAngleTwo*/ ? -(360 - wheelAngleTwo) : wheelAngleTwo;
- 		double wheelAngleThreePrime = 360-wheelAngleThree <= downRightEncoder /*WheelAngleThree*/ ? -(360 - wheelAngleThree) : wheelAngleThree;
- 		double wheelAngleFourPrime = 360-wheelAngleFour <= downLeftEncoder /*WheelAngleFour*/ ? -(360 - wheelAngleFour) : wheelAngleFour;
- 		
- 		/*if (360-wheelAngleOne <= wheelAngleOne)
- 			wheelAngleOnePrime = -(360 - wheelAngleOne);
- 		
- 		if (360-wheelAngleTwo <= wheelAngleTwo)
- 			wheelAngleTwoPrime = -(360 - wheelAngleTwo);
- 		
- 		if (360-wheelAngleThree <= wheelAngleThree)
- 			wheelAngleThreePrime = -(360 - wheelAngleThree);
- 		
- 		if (360-wheelAngleFour <= wheelAngleFour)
- 			wheelAngleFourPrime = -(360 - wheelAngleFour);
- 		*/
- 		
- 		
- 		double absAngleOne = Math.abs(wheelAngleOnePrime - upRightEncoder) > 45 ? 1 : Math.abs(wheelAngleOnePrime - upRightEncoder) / 45;
- 		double uRTi;
- 		if (wheelAngleOnePrime - upRightEncoder > 0 )
- 			uRTi = absAngleOne * -1;
- 		else
- 			uRTi = absAngleOne;
- 			
- 		double absAngleTwo = Math.abs(wheelAngleTwoPrime - upLeftEncoder) > 45 ? 1 : Math.abs(wheelAngleTwoPrime - upLeftEncoder) / 45;
- 		double uLTi;
- 		if (wheelAngleTwoPrime - upLeftEncoder > 0 )
- 			uLTi = absAngleTwo * -1;
- 		else
- 			uLTi = absAngleTwo;
- 		
- 		double absAngleThree = Math.abs(wheelAngleThreePrime - downLeftEncoder) > 45 ? 1 : Math.abs(wheelAngleThreePrime - downLeftEncoder) / 45;
- 		double dLTi;
- 		if (wheelAngleThreePrime - downLeftEncoder > 0 )
- 			dLTi = absAngleThree * -1;
- 		else
- 			dLTi = absAngleThree;
- 		
- 		double absAngleFour = Math.abs(wheelAngleFourPrime - downRightEncoder) > 45 ? 1 : Math.abs(wheelAngleFourPrime - downRightEncoder) / 45;
- 		double dRTi;
- 		if (wheelAngleFourPrime - downRightEncoder > 0 )
- 			dRTi = absAngleFour * -1;
- 		else
- 			dRTi = absAngleFour;
- 		
- 		uRT = (wheelAngleOnePrime > 0) ? uRTi * -1 : uRTi;
- 		uLT = (wheelAngleTwoPrime > 0) ? uLTi * -1 : uLTi;
- 		dLT = (wheelAngleThreePrime > 0) ? dLTi * -1 : dLTi;
- 		dRT = (wheelAngleFourPrime > 0) ? dRTi * -1 : dRTi;
- 		
- 		/*	
- 		if (wheelAngleOne > 0)
- 			uRT = (wheelAngleOne - upRightEncoder < 45) ? 1 : (wheelAngleOne - upRightEncoder) / 45;
- 		else
- 			uRT = (wheelAngleOne - upRightEncoder > 45) ? -1 : (wheelAngleOne - upRightEncoder) / 45;
- 		
- 		
- 		if (wheelAngleTwo > 0)
- 			uLT = (wheelAngleTwo - upLeftEncoder < 45) ? -1 : (wheelAngleTwo - upLeftEncoder) / 45;
- 		else
- 			uLT = (wheelAngleTwo - upLeftEncoder > 45) ? 1 : (wheelAngleTwo - upLeftEncoder) / 45;
- 		
- 		
- 		if (wheelAngleThree > 0)
- 			dLT = (wheelAngleThree - downLeftEncoder < 45) ? -1 : (wheelAngleThree - downLeftEncoder) / 45;
- 		else
- 			dLT = (wheelAngleThree - downLeftEncoder > 45) ? 1 : (wheelAngleThree - downLeftEncoder) / 45;
- 		
- 		
- 		if (wheelAngleFour > 0)
- 			dRT = (wheelAngleFour - downRightEncoder < 45) ? -1 : (wheelAngleFour - downRightEncoder) / 45;
- 		else
- 			dRT = (wheelAngleFour - downRightEncoder > 45) ? 1 : (wheelAngleFour - downRightEncoder) / 45;
- 		
- 		*/
- 		
- 		
- 		/*
- 		wheelAngleOne *= mult;
- 		wheelAngleTwo *= mult;
- 		wheelAngleThree *= mult;
- 		wheelAngleFour *= mult;
- 		*/
- 		
- 		/*double uRT = (wheelAngleOne - upRightEnc.get() > 45 * mult) ? -1 : -( wheelAngleOne - upRightEnc.get()) / (45 * mult);
- 		double uLT = (wheelAngleTwo - upLeftEnc.get() > 45 * mult) ? -1 : -( wheelAngleTwo - upLeftEnc.get()) / (45 * mult);
- 		double dLT = (wheelAngleThree - downLeftEnc.get() > 45 * mult) ? -1 : -( wheelAngleThree - downLeftEnc.get()) / (45 * mult);
- 		double dRT = (wheelAngleFour - downRightEnc.get() > 45 * mult) ? -1 : -( wheelAngleFour - downRightEnc.get()) / (45 * mult);
- 		*/
- 		upRightTurn.set(uRT);				
-		upLeftTurn.set(uLT);
-		downLeftTurn.set(dLT);
-		downRightTurn.set(dRT);
- 		
- 		
- 		
+ 		double wheelAngleOne = ( C == 0 && B == 0) ? 0 : Math.toDegrees(Math.atan2(C,B)) * 1.15278;
+ 		double wheelAngleTwo = ( D == 0 && B == 0) ? 0 : Math.toDegrees(Math.atan2(D,B)) * 1.15278;
+ 		double wheelAngleThree = ( D == 0 && A == 0) ? 0 : Math.toDegrees(Math.atan2(D,A)) * 1.15278;
+ 		double wheelAngleFour = ( C == 0 && A == 0) ? 0 : Math.toDegrees(Math.atan2(C,A)) * 1.15278;
  		
  		//pls check to make sure the variables above connect to the right motors below
  		//Do we really need this?
@@ -259,9 +145,10 @@ public class swerveDrive extends Command {
  		 * then what if the wheel is at the -180 degree mark and you tell it to move slightly more towards the positive 180 degree mark?
  		 * Will the wheels stop and try to go all the way around to the positive 180 by taking the long way around (-180 to 0 to 180)?  Or does it already know to avoid this?*/
  		
-
- 		
- 
+ 		double uRT = (wheelAngleOne - upRightEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleOne - upRightEnc.get()) / (45 * 1.15278);
+ 		double uLT = (wheelAngleTwo - upLeftEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleTwo - upLeftEnc.get()) / (45 * 1.15278);
+ 		double dLT = (wheelAngleThree - downLeftEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleThree - downLeftEnc.get()) / (45 * 1.15278);
+ 		double dRT = (wheelAngleFour - downRightEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleFour - downRightEnc.get()) / (45 * 1.15278);
  		
  		/*double uRTfinal = Math.round(uRT * 1000) / 1000;
  		double uLTfinal = Math.round(uLT * 1000) / 1000;
@@ -270,10 +157,13 @@ public class swerveDrive extends Command {
  		
  		
  		
+ 			upRightTurn.set(uRT);				
+ 			upLeftTurn.set(uLT);
+ 			downLeftTurn.set(dLT);
+ 			downRightTurn.set(dRT);
  			
  			
  			
- 		/*	
  		if (schtick.getRawButton(7)) {
  			upRightTurn.set(1);
  			upLeftTurn.set(1);
@@ -309,7 +199,7 @@ public class swerveDrive extends Command {
  					isComplete = true;
  				}
  			}
- 		}*/
+ 		}
  			
  		
  			
