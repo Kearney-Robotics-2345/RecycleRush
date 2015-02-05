@@ -109,15 +109,15 @@ public class swerveDrive extends Command {
  		double wheelAngleThree = ( D == 0 && A == 0) ? 0 : Math.toDegrees(Math.atan2(D,A));
  		double wheelAngleFour = ( C == 0 && A == 0) ? 0 : Math.toDegrees(Math.atan2(C,A));
  		
- 		upRightEncoder %= 360;
+ 		/*upRightEncoder %= 360;
  		upLeftEncoder %= 360;
  		downLeftEncoder %= 360;
  		downRightEncoder %= 360;
- 		
- 		double wheelAngleOnePrime = 360-wheelAngleOne <= wheelAngleOne ? -(360 - wheelAngleOne) : wheelAngleOne;
- 		double wheelAngleTwoPrime = 360-wheelAngleTwo <= wheelAngleTwo ? -(360 - wheelAngleTwo) : wheelAngleTwo;
- 		double wheelAngleThreePrime = 360-wheelAngleThree <= wheelAngleThree ? -(360 - wheelAngleThree) : wheelAngleThree;
- 		double wheelAngleFourPrime = 360-wheelAngleFour <= wheelAngleFour ? -(360 - wheelAngleFour) : wheelAngleFour;
+ 		*/
+ 		double wheelAngleOnePrime = 360-wheelAngleOne <= upRightEncoder /*WheelAngleOne*/ ? -(360 - wheelAngleOne) : wheelAngleOne;
+ 		double wheelAngleTwoPrime = 360-wheelAngleTwo <= upLeftEncoder /*WheelAngleTwo*/ ? -(360 - wheelAngleTwo) : wheelAngleTwo;
+ 		double wheelAngleThreePrime = 360-wheelAngleThree <= downRightEncoder /*WheelAngleThree*/ ? -(360 - wheelAngleThree) : wheelAngleThree;
+ 		double wheelAngleFourPrime = 360-wheelAngleFour <= downLeftEncoder /*WheelAngleFour*/ ? -(360 - wheelAngleFour) : wheelAngleFour;
  		
  		/*if (360-wheelAngleOne <= wheelAngleOne)
  			wheelAngleOnePrime = -(360 - wheelAngleOne);
