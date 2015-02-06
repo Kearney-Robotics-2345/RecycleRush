@@ -87,7 +87,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         SmartDashboard.putData(Scheduler.getInstance());
-        OI.zeroEncoder.whenPressed(new zeroEncoders());
+        //OI.zeroEncoder.whenPressed(new zeroEncoders());
     }
     
     /**
