@@ -70,172 +70,33 @@ public class swerveDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    
-    	double str = stick.getY(); // stick.getThrottle();(forward/reverse command, -1 to +1)
- 		double fwd = stick.getX() * -1; // stick.getThrottle();(strafe right command, -1 to +1)
- 		double rcw = schtick.getX(); // schtick.getThrottle();(rotate clockwise command, -1 to +1)
+    	//Getting Joystick Inputs
+    	double strX = OI.stick.getX();
+    	double strY = OI.stick.getY();
+    	double rota = OI.schtick.getX();
+    	
+    	//This determines whether the X-Axis is negativ or not
+    	double dirX = (strX > 0) ? 1 : -1;
+    	double dirY = (strY > 0) ? 1 : -1;
+    	
+    	//Now determine the "triangle" created by both X and Y
+    	double A = Math.abs(strX);
+    	double B = Math.abs(strY);
  		
- 		//math for finding the degrees of all the wheels and their vectors
- 		/*Jon again.*/
- 		double A = str-rcw*(l/r);
- 		double B = str+rcw*(l/r);
- 		double C = fwd-rcw*(w/r);
- 		double D = fwd+rcw*(w/r);
- 		
- 		double ws1 = Math.sqrt(B*B + C*C);
- 		double ws2 = Math.sqrt(B*B + D*D);
- 		double ws3 = Math.sqrt(A*A + D*D);
- 		double ws4 = Math.sqrt(A*A + C*C);
- 		double max = Math.max(ws1, Math.max(ws2, Math.max(ws3, ws4)));
- 		
- 		//sets all the angles and powers from the above to the wheels
- 		// for the time being, this is fine, but in the future, I would suggest putting the relative positions of the wheels here instead of putting in generic numbers, because it is slightly unclear.
- 		double wheelSpeedOne = (max>1) ? ws1/max : ws1;
- 		double wheelSpeedTwo = (max>1) ? ws2/max : ws2;
- 		double wheelSpeedThree = (max>1) ? ws3/max : ws3;
- 		double wheelSpeedFour = (max>1) ? ws4/max : ws4;
- 		double wheelAngleOne = ( C == 0 && B == 0) ? 0 : Math.toDegrees(Math.atan2(C,B)) * 1.15278;
- 		double wheelAngleTwo = ( D == 0 && B == 0) ? 0 : Math.toDegrees(Math.atan2(D,B)) * 1.15278;
- 		double wheelAngleThree = ( D == 0 && A == 0) ? 0 : Math.toDegrees(Math.atan2(D,A)) * 1.15278;
- 		double wheelAngleFour = ( C == 0 && A == 0) ? 0 : Math.toDegrees(Math.atan2(C,A)) * 1.15278;
- 		
- 		//pls check to make sure the variables above connect to the right motors below
- 		//Do we really need this?
- 		//|
- 		//V
- 		if (Math.abs(rcw) > 0.1) {
-			wheelSpeedTwo *= -1;
-			wheelSpeedFour *= -1;
-		}
- 			upLeftDrive.set(wheelSpeedTwo);
- 	 		upRightDrive.set(wheelSpeedOne);
- 	 		downLeftDrive.set(wheelSpeedThree);
- 	 		downRightDrive.set(wheelSpeedFour);
- 		
- 	 	/*if (rcw != 0 && fwd !=0) {
- 	 		if (rcw < -0.1) {
- 	 			upRightDrive.set(wheelSpeedOne * 1.5);
- 	 			downRightDrive.set(wheelSpeedFour * -1.5);
- 	 			upLeftDrive.set(wheelSpeedTwo / -1.5);
- 	 			
- 	 			
- 	 		} else if (rcw > 0.1) {
- 	 			upLeftDrive.set(wheelSpeedTwo * 1.5);
- 	 			downLeftDrive.set(wheelSpeedThree * -1.5);
- 	 			upRightDrive.set(wheelSpeedOne / -1.5);
- 	 		}
- 	 	}*/
- 		
- 		SmartDashboard.putNumber("uL", (double) upLeftEnc.get());
- 		SmartDashboard.putNumber("uR", (double) upRightEnc.get());
- 		SmartDashboard.putNumber("dL", (double) downLeftEnc.get());
- 		SmartDashboard.putNumber("dR", (double) downRightEnc.get());
- 		SmartDashboard.putNumber("wS1", (double) wheelSpeedOne);
- 		SmartDashboard.putNumber("wS2", (double) wheelSpeedTwo);
- 		SmartDashboard.putNumber("wS3", (double) wheelSpeedThree);
- 		SmartDashboard.putNumber("wS4", (double) wheelSpeedFour);
- 		SmartDashboard.putNumber("wA1", (double) wheelAngleOne);
- 		SmartDashboard.putNumber("wA2", (double) wheelAngleTwo);
- 		SmartDashboard.putNumber("wA3", (double) wheelAngleThree);
- 		SmartDashboard.putNumber("wA4", (double) wheelAngleFour);
- 		
- 		//this code essentially say that if enc is greater than, go one way, if less go the other, if equal do nothing
- 		/* Quick question from Jon: where are the limits for the encoder?
- 		 * I ask because if the encoder determines that the range is -180 to 180, with both -180 and 180 being slightly different sides of complete reverse,
- 		 * then what if the wheel is at the -180 degree mark and you tell it to move slightly more towards the positive 180 degree mark?
- 		 * Will the wheels stop and try to go all the way around to the positive 180 by taking the long way around (-180 to 0 to 180)?  Or does it already know to avoid this?*/
- 		double wheelAngleOnePrime = (Math.abs(((wheelAngleOne * 1.15278) - upRightEnc.get())) < 180) ? (-180 * 1.15278) + wheelAngleOne : wheelAngleOne;
- 		double wheelAngleTwoPrime = (Math.abs(((wheelAngleTwo * 1.15278) - upLeftEnc.get())) < 180) ? (180 * 1.15278) + wheelAngleTwo : wheelAngleTwo;
- 		double wheelAngleThreePrime = (Math.abs(((wheelAngleThree * 1.15278) - downLeftEnc.get())) < 180) ? (180 * 1.15278) + wheelAngleThree : wheelAngleThree;
- 		double wheelAngleFourPrime = (Math.abs(((wheelAngleFour * 1.15278) - downRightEnc.get())) < 180) ? (180 * 1.15278) + wheelAngleFour : wheelAngleFour;
- 		/*if (Math.abs((wheelAngleOne * 1.15278 - upRightEnc.get())) < 180) {
- 			double wheelAngleOnePrime = (180 * 1.15278) + wheelAngleOne;
- 		}
- 		if (Math.abs((wheelAngleTwo * 1.15278 - upLeftEnc.get())) < 180) {
- 			double wheelAngleTwoPrime = (180 * 1.15278) + wheelAngleTwo;
- 		}
- 		if (Math.abs((wheelAngleThree * 1.15278 - downRightEnc.get())) < 180) {
- 			double wheelAngleThreePrime = (180 * 1.15278) + wheelAngleThree;
- 		}
- 		if (Math.abs((wheelAngleFour * 1.15278 - downLeftEnc.get())) < 180) {
- 			double wheelAngleFourPrime = (180 * 1.15278) + wheelAngleFour;
- 		}*/
- 		
- 		
- 		double uRT = (wheelAngleOnePrime /*wheelAngleOne*/ - upRightEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleOne - upRightEnc.get()) / (45 * 1.15278);
- 		double uLT = (wheelAngleTwoPrime /*wheelAngleTwo*/ - upLeftEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleTwo - upLeftEnc.get()) / (45 * 1.15278);
- 		double dLT = (wheelAngleThreePrime /*wheelAngleThree*/ - downLeftEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleThree - downLeftEnc.get()) / (45 * 1.15278);
- 		double dRT = (wheelAngleFourPrime /*wheelAngleFour*/ - downRightEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleFour - downRightEnc.get()) / (45 * 1.15278);
- 		
- 		
- 		
- 		
- 		
- 		/*double uRTfinal = Math.round(uRT * 1000) / 1000;
- 		double uLTfinal = Math.round(uLT * 1000) / 1000;
- 		double dLTfinal = Math.round(dLT * 1000) / 1000;
- 		double dRTfinal = Math.round(dRT * 1000) / 1000;*/
- 		
- 		
- 		
- 			upRightTurn.set(uRT);				
- 			upLeftTurn.set(uLT);
- 			downLeftTurn.set(dLT);
- 			downRightTurn.set(dRT);
- 			
- 			
- 			
- 		
- 				
- 		
- 			
- 		
- 			
- 			
- 			
- 			
- 			
- 			
- 			
- 			
- 			
- 			
- 			
- 			
- 			
- 	
- 		/*if (wheelAngleOne < upRightEnc.get() + diff) {
- 			upRightTurn.set(0.5);
- 		
- 			}else if(wheelAngleOne > upRightEnc.get() - diff){
- 				upRightTurn.set(-0.5);
- 			}else{
- 				upRightTurn.set(0);}
- 		
- 		if (wheelAngleTwo < upLeftEnc.get() + diff) {
- 			upLeftTurn.set(0.5);
- 		
- 			}else if(wheelAngleTwo > upLeftEnc.get() - diff){
- 				upLeftTurn.set(-0.5);
- 			}else{
- 				upLeftTurn.set(0);}
- 		
- 		if (wheelAngleThree < downLeftEnc.get() + diff) {
- 			downLeftTurn.set(0.5);
- 		
- 			}else if(wheelAngleThree > downLeftEnc.get() - diff){
- 				downLeftTurn.set(-0.5);
- 			}else{
- 				downLeftTurn.set(0);}
- 		
- 		if (wheelAngleFour < downRightEnc.get() + diff) {
- 			downRightTurn.set(0.5);
- 		
- 			}else if(wheelAngleFour > downRightEnc.get() - diff){
- 				downRightTurn.set(-0.5);
- 			}else{
- 				downRightTurn.set(0);}*/
- 		
+    	double theta = (strX != 0 && strY != 0) ? Math.atan(B/A) : 90;
+    	double stickAngle = 90-theta;
+    	
+    	double targetURAngle = stickAngle * dirX;
+    	
+    	//Now get encoder values in degrees
+    	final double encoderToDegreeFactor = 1.15278;
+    	double currentURAngle = RobotMap.upRightEnc.get() * encoderToDegreeFactor;
+    	
+    	
+    	//Set turn motors to corresponding values
+    	double URTPre = (targetURAngle != 0) ? 0.5 : 0;
+    	//double URT = (targetUrAngle < currentURAngle) ? URTPre * -1 : URTPre;
+    	RobotMap.upRightTurn.set(URTPre);
  			commandStatus = true;
 		}
     	
