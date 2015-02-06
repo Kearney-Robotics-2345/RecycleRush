@@ -69,34 +69,148 @@ public class swerveDrive extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
+    double directionUR;
+    double directionUL;
+    double directionDR;
+    double directionDL;
     protected void execute() {
     	//Getting Joystick Inputs
     	double strX = OI.stick.getX();
     	double strY = OI.stick.getY();
     	double rota = OI.schtick.getX();
-    	
-    	//This determines whether the X-Axis is negativ or not
-    	double dirX = (strX > 0) ? 1 : -1;
-    	double dirY = (strY > 0) ? 1 : -1;
+  
     	
     	//Now determine the "triangle" created by both X and Y
     	double A = Math.abs(strX);
     	double B = Math.abs(strY);
  		
-    	double theta = (strX != 0 && strY != 0) ? Math.atan(B/A) : 90;
-    	double stickAngle = 90-theta;
+    	double theta = Math.atan(B/A);
     	
-    	double targetURAngle = stickAngle * dirX;
-    	
-    	//Now get encoder values in degrees
     	final double encoderToDegreeFactor = 1.15278;
-    	double currentURAngle = RobotMap.upRightEnc.get() * encoderToDegreeFactor;
+    	
+    	double UREnc = RobotMap.upRightEnc.get() * encoderToDegreeFactor;
+    	double ULEnc = RobotMap.upLeftEnc.get() * encoderToDegreeFactor;
+    	double DREnc = RobotMap.downRightEnc.get() * encoderToDegreeFactor;
+    	double DLEnc = RobotMap.downLeftEnc.get() * encoderToDegreeFactor;
     	
     	
-    	//Set turn motors to corresponding values
-    	double URTPre = (targetURAngle != 0) ? 0.5 : 0;
-    	//double URT = (targetUrAngle < currentURAngle) ? URTPre * -1 : URTPre;
-    	RobotMap.upRightTurn.set(URTPre);
+    	if (Math.abs(theta - UREnc) <= 0.1 && Math.abs(theta - UREnc) >= -0.1) {
+    		directionUR = 0;
+    	} else if (theta > UREnc) {
+    		directionUR = 1;
+    	} else if (theta < UREnc) {
+    		directionUR = -1;
+    	} else {
+    		directionUR = 0;
+    	}
+    	
+    	if (Math.abs(theta - ULEnc) <= 0.1 && Math.abs(theta - ULEnc) >= -0.1) {
+    		directionUL = 0;
+    	} else if (theta > ULEnc) {
+    		directionUL = 1;
+    	} else if (theta < ULEnc) {
+    		directionUL = -1;
+    	} else {
+    		directionUL = 0;
+    	}
+    	
+    	if (Math.abs(theta - DREnc) <= 0.1 && Math.abs(theta - DREnc) >= -0.1) {
+    		directionDR = 0;
+    	} else if (theta > UREnc) {
+    		directionDR = 1;
+    	} else if (theta < UREnc) {
+    		directionDR = -1;
+    	} else {
+    		directionDR = 0;
+    	}
+    	
+    	if (Math.abs(theta - DLEnc) <= 0.1 && Math.abs(theta - DLEnc) >= -0.1) {
+    		directionDL = 0;
+    	} else if (theta > DLEnc) {
+    		directionDL = 1;
+    	} else if (theta < DLEnc) {
+    		directionDL = -1;
+    	} else {
+    		directionDL = 0;
+    	}
+    	
+    	double turnAngleUR = theta * directionUR;
+    	double turnAngleUL = theta * directionUL;
+    	double turnAngleDR = theta * directionDR;
+    	double turnAngleDL = theta * directionDL;
+    	
+    	double turnCommandUR;
+    	double turnCommandUL;
+    	double turnCommandDR;
+    	double turnCommandDL;
+    	
+    	if ( turnAngleUR < 0) {
+    		turnCommandUR = (Math.abs(turnAngleUR - UREnc) > 45) ? -1 :(Math.abs(theta - UREnc) * directionUR);
+    	} else if( turnAngleUR > 0) {
+    		turnCommandUR = (Math.abs(turnAngleUR - UREnc) > 45) ? 1 :(Math.abs(theta - UREnc) * directionUR);
+    	} else {
+    		turnCommandUR = 0;
+    	}
+    	
+    	if ( turnAngleUL < 0) {
+    		turnCommandUL = (Math.abs(turnAngleUL - ULEnc) > 45) ? -1 :(Math.abs(theta - ULEnc) * directionUL);
+    	} else if( turnAngleUL > 0) {
+    		turnCommandUL = (Math.abs(turnAngleUL - ULEnc) > 45) ? 1 :(Math.abs(theta - ULEnc) * directionUL);
+    	} else {
+    		turnCommandUL = 0;
+    	}
+    	
+    	if ( turnAngleDR < 0) {
+    		turnCommandDR = (Math.abs(turnAngleDR - DREnc) > 45) ? -1 :(Math.abs(theta - DREnc) * directionDR);
+    	} else if( turnAngleDR > 0) {
+    		turnCommandDR = (Math.abs(turnAngleDR - DREnc) > 45) ? 1 :(Math.abs(theta - DREnc) * directionDR);
+    	} else {
+    		turnCommandDR = 0;
+    	}
+    	
+    	if ( turnAngleDL < 0) {
+    		turnCommandDL = (Math.abs(turnAngleDL - DLEnc) > 45) ? -1 :(Math.abs(theta - DLEnc) * directionDL);
+    	} else if( turnAngleDL > 0) {
+    		turnCommandDL = (Math.abs(turnAngleDL - DLEnc) > 45) ? 1 :(Math.abs(theta - DLEnc) * directionDL);
+    	} else {
+    		turnCommandDL = 0;
+    	}
+    	
+    	RobotMap.upRightTurn.set(turnCommandUR);
+    	RobotMap.upLeftTurn.set(turnCommandUL);
+    	RobotMap.downRightTurn.set(turnCommandDR);
+    	RobotMap.downLeftTurn.set(turnCommandDL);
+
+    	
+    	
+    	//Now set up drive
+    	
+    	double C = Math.sqrt((A*A)+(B*B));
+    	
+    	//leftDrive and rightDrive are the specific motor vaulues for the left and right sides of the robot respectively
+    	double leftDrive;
+    	double rightDrive;
+    	//Now account for rotating robot
+    	if (rota < 0) {
+    		leftDrive = C - rota;
+    		rightDrive = C + rota;
+    	} else if (rota > 0) {
+    		leftDrive = C + rota;
+    		rightDrive = C - rota;
+    	} else if (rota == 0) {
+    		leftDrive = C;
+    		rightDrive = C;
+    	} else {
+    		leftDrive = 0;
+    		rightDrive = 0;
+    	}
+    	//Set drive motor speeds
+    	RobotMap.upRightDrive.set(rightDrive);
+    	RobotMap.downRightDrive.set(rightDrive);
+    	RobotMap.upLeftDrive.set(leftDrive);
+    	RobotMap.downLeftDrive.set(leftDrive);
+    	//#Win #SWEG
+    	
  			commandStatus = true;
 		}
     	
