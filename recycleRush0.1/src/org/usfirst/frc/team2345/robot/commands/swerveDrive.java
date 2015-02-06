@@ -70,7 +70,7 @@ public class swerveDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+    
     	double str = stick.getY(); // stick.getThrottle();(forward/reverse command, -1 to +1)
  		double fwd = stick.getX() * -1; // stick.getThrottle();(strafe right command, -1 to +1)
  		double rcw = schtick.getX(); // schtick.getThrottle();(rotate clockwise command, -1 to +1)
@@ -144,11 +144,32 @@ public class swerveDrive extends Command {
  		 * I ask because if the encoder determines that the range is -180 to 180, with both -180 and 180 being slightly different sides of complete reverse,
  		 * then what if the wheel is at the -180 degree mark and you tell it to move slightly more towards the positive 180 degree mark?
  		 * Will the wheels stop and try to go all the way around to the positive 180 by taking the long way around (-180 to 0 to 180)?  Or does it already know to avoid this?*/
+ 		double wheelAngleOnePrime = (Math.abs(((wheelAngleOne * 1.15278) - upRightEnc.get())) < 180) ? (-180 * 1.15278) + wheelAngleOne : wheelAngleOne;
+ 		double wheelAngleTwoPrime = (Math.abs(((wheelAngleTwo * 1.15278) - upLeftEnc.get())) < 180) ? (180 * 1.15278) + wheelAngleTwo : wheelAngleTwo;
+ 		double wheelAngleThreePrime = (Math.abs(((wheelAngleThree * 1.15278) - downLeftEnc.get())) < 180) ? (180 * 1.15278) + wheelAngleThree : wheelAngleThree;
+ 		double wheelAngleFourPrime = (Math.abs(((wheelAngleFour * 1.15278) - downRightEnc.get())) < 180) ? (180 * 1.15278) + wheelAngleFour : wheelAngleFour;
+ 		/*if (Math.abs((wheelAngleOne * 1.15278 - upRightEnc.get())) < 180) {
+ 			double wheelAngleOnePrime = (180 * 1.15278) + wheelAngleOne;
+ 		}
+ 		if (Math.abs((wheelAngleTwo * 1.15278 - upLeftEnc.get())) < 180) {
+ 			double wheelAngleTwoPrime = (180 * 1.15278) + wheelAngleTwo;
+ 		}
+ 		if (Math.abs((wheelAngleThree * 1.15278 - downRightEnc.get())) < 180) {
+ 			double wheelAngleThreePrime = (180 * 1.15278) + wheelAngleThree;
+ 		}
+ 		if (Math.abs((wheelAngleFour * 1.15278 - downLeftEnc.get())) < 180) {
+ 			double wheelAngleFourPrime = (180 * 1.15278) + wheelAngleFour;
+ 		}*/
  		
- 		double uRT = (wheelAngleOne - upRightEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleOne - upRightEnc.get()) / (45 * 1.15278);
- 		double uLT = (wheelAngleTwo - upLeftEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleTwo - upLeftEnc.get()) / (45 * 1.15278);
- 		double dLT = (wheelAngleThree - downLeftEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleThree - downLeftEnc.get()) / (45 * 1.15278);
- 		double dRT = (wheelAngleFour - downRightEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleFour - downRightEnc.get()) / (45 * 1.15278);
+ 		
+ 		double uRT = (wheelAngleOnePrime /*wheelAngleOne*/ - upRightEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleOne - upRightEnc.get()) / (45 * 1.15278);
+ 		double uLT = (wheelAngleTwoPrime /*wheelAngleTwo*/ - upLeftEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleTwo - upLeftEnc.get()) / (45 * 1.15278);
+ 		double dLT = (wheelAngleThreePrime /*wheelAngleThree*/ - downLeftEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleThree - downLeftEnc.get()) / (45 * 1.15278);
+ 		double dRT = (wheelAngleFourPrime /*wheelAngleFour*/ - downRightEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleFour - downRightEnc.get()) / (45 * 1.15278);
+ 		
+ 		
+ 		
+ 		
  		
  		/*double uRTfinal = Math.round(uRT * 1000) / 1000;
  		double uLTfinal = Math.round(uLT * 1000) / 1000;
@@ -164,42 +185,9 @@ public class swerveDrive extends Command {
  			
  			
  			
- 		if (schtick.getRawButton(7)) {
- 			upRightTurn.set(1);
- 			upLeftTurn.set(1);
- 			downLeftTurn.set(1);
- 			downRightTurn.set(1);
- 			boolean uLPressed = false;
- 			boolean uRPressed = false;
- 			boolean dLPressed = false;
- 			boolean dRPressed = false;
- 			boolean isComplete = false;
- 			while (isComplete != true) {
- 				if (RobotMap.uLSwitch.get() == true) {
- 					uLPressed = true;
- 					upLeftTurn.set(0);
- 					upLeftEnc.reset();
- 				}
- 				if (RobotMap.uRSwitch.get() == true) {
- 					uRPressed = true;
- 					upRightTurn.set(0);
- 					upRightEnc.reset();
- 				}
- 				if (RobotMap.dLSwitch.get() == true) {
- 					dLPressed = true;
- 					downLeftTurn.set(0);
- 					downLeftEnc.reset();
- 				}
- 				if (RobotMap.dRSwitch.get() == true) {
- 					dRPressed = true;
- 					downRightTurn.set(0);
- 					downRightEnc.reset();
- 				}
- 				if (uLPressed == true && uRPressed == true && dLPressed == true && dRPressed == true) {
- 					isComplete = true;
- 				}
- 			}
- 		}
+ 		
+ 				
+ 		
  			
  		
  			
@@ -247,9 +235,9 @@ public class swerveDrive extends Command {
  				downRightTurn.set(-0.5);
  			}else{
  				downRightTurn.set(0);}*/
- 		commandStatus = true;
-    }
  		
+ 			commandStatus = true;
+		}
     	
     
     

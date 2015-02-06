@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2345.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2345.robot.commands.swerveDrive;
 import org.usfirst.frc.team2345.robot.commands.teleopFunctions;
+import org.usfirst.frc.team2345.robot.commands.zeroEncoders;
 import org.usfirst.frc.team2345.robot.subsystems.ExampleSubsystem;
 
 /**
@@ -86,6 +87,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         SmartDashboard.putData(Scheduler.getInstance());
+        OI.zeroEncoder.whenPressed(new zeroEncoders());
     }
     
     /**
