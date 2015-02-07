@@ -60,166 +60,132 @@ public class swerveDrive extends Command {
     double directionDL;
     
     protected void execute() {
-    	//Getting Joystick Inputs
-    	double strX = OI.stick.getX();
-    	double strY = OI.stick.getY();
-    	double rota = OI.schtick.getX();
-  
     	
-    	//Now determine the "triangle" created by both X and Y
-    	double A = Math.abs(strX);
-    	double B = Math.abs(strY);
+    	double fwd = stick.getX() * -1; // stick.getThrottle();(forward/reverse command, -1 to +1)
+ 		double str = stick.getY(); // stick.getThrottle();(strafe right command, -1 to +1)
+ 		double rcw = schtick.getX(); // schtick.getThrottle();(rotate clockwise command, -1 to +1)
  		
-    	double theta = Math.toDegrees(Math.atan2(strY,strX));
-    	
-    	theta += 90;
-    	
-    	final double encoderToDegreeFactor = 1.15278;
-    	
-    	double UREnc = RobotMap.upRightEnc.get() * encoderToDegreeFactor;
-    	double ULEnc = RobotMap.upLeftEnc.get() * encoderToDegreeFactor;
-    	double DREnc = RobotMap.downRightEnc.get() * encoderToDegreeFactor;
-    	double DLEnc = RobotMap.downLeftEnc.get() * encoderToDegreeFactor;
-    	//This code determines which direction steer motors have to go to reach target
-    	if (theta - UREnc < 4 && theta - UREnc > -4) {
-    		directionUR = 0;
-    	} else if (theta > UREnc) {
-    		directionUR = 1;
-    	} else if (theta < UREnc) {
-    		directionUR = -1;
-    	} else {
-    		//Prevent nasty math from messing up robot
-    		directionUR = 0;
-    	}
-    	//Repeat for other motors
-    	if (Math.abs(theta - ULEnc) <= 0.1 && Math.abs(theta - ULEnc) >= -0.1) {
-    		directionUL = 0;
-    	} else if (theta > ULEnc) {
-    		directionUL = 1;
-    	} else if (theta < ULEnc) {
-    		directionUL = -1;
-    	} else {
-    		directionUL = 0;
-    	}
-    	
-    	if (Math.abs(theta - DREnc) <= 0.1 && Math.abs(theta - DREnc) >= -0.1) {
-    		directionDR = 0;
-    	} else if (theta > UREnc) {
-    		directionDR = 1;
-    	} else if (theta < UREnc) {
-    		directionDR = -1;
-    	} else {
-    		directionDR = 0;
-    	}
-    	
-    	if (Math.abs(theta - DLEnc) <= 0.1 && Math.abs(theta - DLEnc) >= -0.1) {
-    		directionDL = 0;
-    	} else if (theta > DLEnc) {
-    		directionDL = 1;
-    	} else if (theta < DLEnc) {
-    		directionDL = -1;
-    	} else {
-    		directionDL = 0;
-    	}
-    	//Change the positive theta to a corresponding value
-    	double turnAngleUR = theta; //* directionUR;
-    	double turnAngleUL = theta * directionUL;
-    	double turnAngleDR = theta * directionDR;
-    	double turnAngleDL = theta * directionDL;
-    	//Initialize the variables for turn motor speeds
-    	double turnCommandUR;
-    	double turnCommandUL;
-    	double turnCommandDR;
-    	double turnCommandDL;
-    	//Determine the motors speeds...speed is decreased as the current angle approaches target
-    	if ( turnAngleUR > 0) {
-    		turnCommandUR = -0.5;
-    		//turnCommandUR = (Math.abs(turnAngleUR - UREnc) > 60) ? -0.5 :(Math.abs(theta - UREnc) / 60) * -1; //* directionUR);
-    	} else if( turnAngleUR < 0) {
-    		turnCommandUR = 0.5; //turnCommandUR = (Math.abs(turnAngleUR - UREnc) > 60) ? 0.5 :(Math.abs(theta - UREnc) / 60) * 1;// * directionUR);
-    	} else {
-    		//Prevent nasty math from screwing up the robot ie: it prevents robot from moving
-    		turnCommandUR = 0;
-    	}
-    	//Repeat for other motors
-    	if ( turnAngleUL < 0) {
-    		turnCommandUL = (Math.abs(turnAngleUL - ULEnc) > 45) ? -1 :(Math.abs(theta - ULEnc) * directionUL);
-    	} else if( turnAngleUL > 0) {
-    		turnCommandUL = (Math.abs(turnAngleUL - ULEnc) > 45) ? 1 :(Math.abs(theta - ULEnc) * directionUL);
-    	} else {
-    		turnCommandUL = 0;
-    	}
-    	
-    	if ( turnAngleDR < 0) {
-    		turnCommandDR = (Math.abs(turnAngleDR - DREnc) > 45) ? -1 :(Math.abs(theta - DREnc) * directionDR);
-    	} else if( turnAngleDR > 0) {
-    		turnCommandDR = (Math.abs(turnAngleDR - DREnc) > 45) ? 1 :(Math.abs(theta - DREnc) * directionDR);
-    	} else {
-    		turnCommandDR = 0;
-    	}
-    	
-    	if ( turnAngleDL < 0) {
-    		turnCommandDL = (Math.abs(turnAngleDL - DLEnc) > 45) ? -1 :(Math.abs(theta - DLEnc) * directionDL);
-    	} else if( turnAngleDL > 0) {
-    		turnCommandDL = (Math.abs(turnAngleDL - DLEnc) > 45) ? 1 :(Math.abs(theta - DLEnc) * directionDL);
-    	} else {
-    		turnCommandDL = 0;
-    	}
-    	//Set motors to calculated values
-    	RobotMap.upRightTurn.set(turnCommandUR);
-    	//RobotMap.upLeftTurn.set(turnCommandUL);
-    	//RobotMap.downRightTurn.set(turnCommandDR);
-    	//RobotMap.downLeftTurn.set(turnCommandDL);
-    	
-    	SmartDashboard.putNumber("wA1", turnAngleUR);
-    	SmartDashboard.putNumber("wA2", turnAngleUL);
-    	SmartDashboard.putNumber("wA3", turnAngleDR);
-    	SmartDashboard.putNumber("wA4", turnAngleDL);
-    	SmartDashboard.putNumber("wA1", turnAngleUR);
-    	SmartDashboard.putNumber("uR", turnAngleUR);
-    	SmartDashboard.putNumber("dR", turnAngleDR);
-    	SmartDashboard.putNumber("uL", turnAngleUL);
-    	SmartDashboard.putNumber("dL", turnAngleUR);
-    	SmartDashboard.putNumber("uRC", turnCommandUR);
-    	SmartDashboard.putNumber("dRC", turnCommandDR);
-    	SmartDashboard.putNumber("uLC", turnCommandUL);
-    	SmartDashboard.putNumber("dLC", turnCommandUR);
-
-
-    	
-
-    	
-    	
-    	//Now set up drive
-    	
-    	double C = Math.sqrt((A*A)+(B*B));
-    	
-    	//leftDrive and rightDrive are the specific motor vaulues for the left and right sides of the robot respectively
-    	double leftDrive;
-    	double rightDrive;
-    	//Now account for rotating robot
-    	if (rota < 0) {
-    		//Possibly rota/2
-    		leftDrive = C - rota;
-    		rightDrive = C + rota;
-    	} else if (rota > 0) {
-    		leftDrive = C + rota;
-    		rightDrive = C - rota;
-    	} else if (rota == 0) {
-    		leftDrive = C;
-    		rightDrive = C;
-    	} else {
-    		leftDrive = 0;
-    		rightDrive = 0;
-    	}
-    	//Set drive motor speeds
-    	//RobotMap.upRightDrive.set(rightDrive);
-    	//RobotMap.downRightDrive.set(rightDrive);
-    	//RobotMap.upLeftDrive.set(leftDrive);
-    	//RobotMap.downLeftDrive.set(leftDrive);
-    	//#Win #SWEG
-    	
- 			commandStatus = true;
+ 		//math for finding the degrees of all the wheels and their vectors
+ 		/*Jon again.*/
+ 		double A = str-rcw*(l/r);
+ 		double B = str+rcw*(l/r);
+ 		double C = fwd-rcw*(w/r);
+ 		double D = fwd+rcw*(w/r);
+ 		
+ 		double ws1 = Math.sqrt(B*B + C*C);
+ 		double ws2 = Math.sqrt(B*B + D*D);
+ 		double ws3 = Math.sqrt(A*A + D*D);
+ 		double ws4 = Math.sqrt(A*A + C*C);
+ 		double max = Math.max(ws1, Math.max(ws2, Math.max(ws3, ws4)));
+ 		
+ 		//sets all the angles and powers from the above to the wheels
+ 		// for the time being, this is fine, but in the future, I would suggest putting the relative positions of the wheels here instead of putting in generic numbers, because it is slightly unclear.
+ 		double wheelSpeedOne = (max>1) ? ws1/max : ws1;
+ 		double wheelSpeedTwo = (max>1) ? ws2/max : ws2;
+ 		double wheelSpeedThree = (max>1) ? ws3/max : ws3;
+ 		double wheelSpeedFour = (max>1) ? ws4/max : ws4;
+ 		double wheelAngleOne = ( C == 0 && B == 0) ? 0 : Math.toDegrees(Math.atan2(C,B)) * 1.15278;
+ 		double wheelAngleTwo = ( D == 0 && B == 0) ? 0 : Math.toDegrees(Math.atan2(D,B)) * 1.15278;
+ 		double wheelAngleThree = ( D == 0 && A == 0) ? 0 : Math.toDegrees(Math.atan2(D,A)) * 1.15278;
+ 		double wheelAngleFour = ( C == 0 && A == 0) ? 0 : Math.toDegrees(Math.atan2(C,A)) * 1.15278;
+ 		
+ 		//pls check to make sure the variables above connect to the right motors below
+ 		//Do we really need this?
+ 		//|
+ 		//V
+ 		/*if (rcw != 0) {
+			wheelSpeedTwo *= -1;
+			wheelSpeedFour *= -1;
+		}*/
+ 			upLeftDrive.set(wheelSpeedTwo);
+ 	 		upRightDrive.set(wheelSpeedOne);
+ 	 		downLeftDrive.set(wheelSpeedThree);
+ 	 		downRightDrive.set(wheelSpeedFour);
+ 		
+ 	 	if (rcw != 0 && fwd !=0) {
+ 	 		if (rcw < -0.1) {
+ 	 			upRightDrive.set(wheelSpeedOne * 1.5);
+ 	 			downRightDrive.set(wheelSpeedFour * 1.5);
+ 	 			upLeftDrive.set(wheelSpeedTwo / -1.5);
+ 	 			
+ 	 			
+ 	 		} else if (rcw > 0.1) {
+ 	 			upLeftDrive.set(wheelSpeedTwo * 1.5);
+ 	 			downLeftDrive.set(wheelSpeedThree * 1.5);
+ 	 			upRightDrive.set(wheelSpeedOne / -1.5);
+ 	 		}
+ 	 	}
+ 		
+ 		SmartDashboard.putNumber("uL", (double) upLeftEnc.get());
+ 		SmartDashboard.putNumber("uR", (double) upRightEnc.get());
+ 		SmartDashboard.putNumber("dL", (double) downLeftEnc.get());
+ 		SmartDashboard.putNumber("dR", (double) downRightEnc.get());
+ 		SmartDashboard.putNumber("wS1", (double) wheelSpeedOne);
+ 		SmartDashboard.putNumber("wS2", (double) wheelSpeedTwo);
+ 		SmartDashboard.putNumber("wS3", (double) wheelSpeedThree);
+ 		SmartDashboard.putNumber("wS4", (double) wheelSpeedFour);
+ 		SmartDashboard.putNumber("wA1", (double) wheelAngleOne);
+ 		SmartDashboard.putNumber("wA2", (double) wheelAngleTwo);
+ 		SmartDashboard.putNumber("wA3", (double) wheelAngleThree);
+ 		SmartDashboard.putNumber("wA4", (double) wheelAngleFour);
+ 		
+ 		//this code essentially say that if enc is greater than, go one way, if less go the other, if equal do nothing
+ 		/* Quick question from Jon: where are the limits for the encoder?
+ 		 * I ask because if the encoder determines that the range is -180 to 180, with both -180 and 180 being slightly different sides of complete reverse,
+ 		 * then what if the wheel is at the -180 degree mark and you tell it to move slightly more towards the positive 180 degree mark?
+ 		 * Will the wheels stop and try to go all the way around to the positive 180 by taking the long way around (-180 to 0 to 180)?  Or does it already know to avoid this?*/
+ 		
+ 		double uRT = (wheelAngleOne - upRightEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleOne - upRightEnc.get()) / (45 * 1.15278);
+ 		double uLT = (wheelAngleTwo - upLeftEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleTwo - upLeftEnc.get()) / (45 * 1.15278);
+ 		double dLT = (wheelAngleThree - downLeftEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleThree - downLeftEnc.get()) / (45 * 1.15278);
+ 		double dRT = (wheelAngleFour - downRightEnc.get() > 45 * 1.15278) ? -1 : -( wheelAngleFour - downRightEnc.get()) / (45 * 1.15278);
+ 		
+ 		/*double uRTfinal = Math.round(uRT * 1000) / 1000;
+ 		double uLTfinal = Math.round(uLT * 1000) / 1000;
+ 		double dLTfinal = Math.round(dLT * 1000) / 1000;
+ 		double dRTfinal = Math.round(dRT * 1000) / 1000;*/
+ 		
+ 		
+ 			upRightTurn.set(uRT);				
+ 			upLeftTurn.set(uLT);
+ 			downLeftTurn.set(dLT);
+ 			downRightTurn.set(dRT);
+ 			
+ 			
+ 			
+ 	
+ 		/*if (wheelAngleOne < upRightEnc.get() + diff) {
+ 			upRightTurn.set(0.5);
+ 		
+ 			}else if(wheelAngleOne > upRightEnc.get() - diff){
+ 				upRightTurn.set(-0.5);
+ 			}else{
+ 				upRightTurn.set(0);}
+ 		
+ 		if (wheelAngleTwo < upLeftEnc.get() + diff) {
+ 			upLeftTurn.set(0.5);
+ 		
+ 			}else if(wheelAngleTwo > upLeftEnc.get() - diff){
+ 				upLeftTurn.set(-0.5);
+ 			}else{
+ 				upLeftTurn.set(0);}
+ 		
+ 		if (wheelAngleThree < downLeftEnc.get() + diff) {
+ 			downLeftTurn.set(0.5);
+ 		
+ 			}else if(wheelAngleThree > downLeftEnc.get() - diff){
+ 				downLeftTurn.set(-0.5);
+ 			}else{
+ 				downLeftTurn.set(0);}
+ 		
+ 		if (wheelAngleFour < downRightEnc.get() + diff) {
+ 			downRightTurn.set(0.5);
+ 		
+ 			}else if(wheelAngleFour > downRightEnc.get() - diff){
+ 				downRightTurn.set(-0.5);
+ 			}else{
+ 				downRightTurn.set(0);}*/
+ 		commandStatus = true;
 		}
     	
     
