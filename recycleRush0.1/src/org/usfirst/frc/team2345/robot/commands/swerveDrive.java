@@ -58,6 +58,7 @@ public class swerveDrive extends Command {
     double directionUL;
     double directionDR;
     double directionDL;
+    
     protected void execute() {
     	//Getting Joystick Inputs
     	double strX = OI.stick.getX();
@@ -79,7 +80,7 @@ public class swerveDrive extends Command {
     	double DLEnc = RobotMap.downLeftEnc.get() * encoderToDegreeFactor;
     	
     	//This code determines which direction steer motors have to go to reach target
-    	if (Math.abs(theta - UREnc) <= 0.1 && Math.abs(theta - UREnc) >= -0.1) {
+    	if (Math.abs(theta - UREnc) <= 4 && Math.abs(theta - UREnc) >= -4) {
     		directionUR = 0;
     	} else if (theta > UREnc) {
     		directionUR = 1;
@@ -131,9 +132,9 @@ public class swerveDrive extends Command {
     	double turnCommandDL;
     	//Determine the motors speeds...speed is decreased as the current angle approaches target
     	if ( turnAngleUR < 0) {
-    		turnCommandUR = (Math.abs(turnAngleUR - UREnc) > 45) ? -1 :(Math.abs(theta - UREnc) * directionUR);
+    		turnCommandUR = (Math.abs(turnAngleUR - UREnc) > 45) ? -0.5 :(Math.abs(theta - UREnc) * directionUR);
     	} else if( turnAngleUR > 0) {
-    		turnCommandUR = (Math.abs(turnAngleUR - UREnc) > 45) ? 1 :(Math.abs(theta - UREnc) * directionUR);
+    		turnCommandUR = (Math.abs(turnAngleUR - UREnc) > 45) ? 0.5 :(Math.abs(theta - UREnc) * directionUR);
     	} else {
     		//Prevent nasty math from screwing up the robot ie: it prevents robot from moving
     		turnCommandUR = 0;

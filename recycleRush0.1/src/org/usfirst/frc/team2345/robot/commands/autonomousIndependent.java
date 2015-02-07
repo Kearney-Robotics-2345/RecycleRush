@@ -36,6 +36,8 @@ public class autonomousIndependent extends Command {
 		if (RobotMap.elevatorSwtich1.get() == true)
 			loopControl1 += 1;
 		}
+		RobotMap.elevator1.set(0);
+		RobotMap.elevator2.set(0);
     	drive(0,0.5,0);
     	Timer.delay(0.5);
     	drive(0,0,0);
@@ -48,6 +50,8 @@ public class autonomousIndependent extends Command {
 		if (RobotMap.elevatorSwtich1.get() == true)
 			loopControl2 = true;
 		}
+		RobotMap.elevator1.set(0);
+		RobotMap.elevator2.set(0);
     	drive(-0.5,0,0);
     	//May have to change timers
     	Timer.delay(5);
@@ -60,6 +64,8 @@ public class autonomousIndependent extends Command {
 		if (RobotMap.elevatorSwtich1.get() == true)
 			loopControl3 += 1;
 		}
+		RobotMap.elevator1.set(0);
+		RobotMap.elevator2.set(0);
     }
 
     // Make this return true when this Command no longer needs to run execute()

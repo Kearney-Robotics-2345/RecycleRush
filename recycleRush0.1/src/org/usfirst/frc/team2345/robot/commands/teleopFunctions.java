@@ -32,6 +32,8 @@ public class teleopFunctions extends Command {
     		if (RobotMap.elevatorSwtich1.get() == true)
     			loopControl = true;
     		}
+    		RobotMap.elevator1.set(0);
+    		RobotMap.elevator2.set(0);
     	}
     	//Down 13in
     	if (stick.getRawButton(2) == true) {
@@ -42,6 +44,8 @@ public class teleopFunctions extends Command {
     		if (RobotMap.elevatorSwtich1.get() == true)
     			loopControl = true;
     		}
+    		RobotMap.elevator1.set(0);
+    		RobotMap.elevator2.set(0);
     	}
     	//Up 26in
     	if (stick.getRawButton(4) == true) {
@@ -52,6 +56,8 @@ public class teleopFunctions extends Command {
     		if (RobotMap.elevatorSwtich1.get() == true)
     			loopControl += 1;
     		}
+    		RobotMap.elevator1.set(0);
+    		RobotMap.elevator2.set(0);
     	}
     	//Down 26in
     	if (stick.getRawButton(5) == true) {
@@ -62,6 +68,8 @@ public class teleopFunctions extends Command {
     		if (RobotMap.elevatorSwtich1.get() == true)
     			loopControl += 1;
     		}
+    		RobotMap.elevator1.set(0);
+    		RobotMap.elevator2.set(0);
     	}
     	//Up Completely
     	if (schtick.getRawButton(3) == true) {
@@ -72,6 +80,8 @@ public class teleopFunctions extends Command {
     		if (RobotMap.elevatorSwtich1.get() == true)
     			loopControl += 1;
     		}
+    		RobotMap.elevator1.set(0);
+    		RobotMap.elevator2.set(0);
     	}
     	//Down Completely
     	if (schtick.getRawButton(2) == true) {
@@ -82,15 +92,19 @@ public class teleopFunctions extends Command {
     		if (RobotMap.elevatorSwtich1.get() == true)
     			loopControl += 1;
     		}
+    		RobotMap.elevator1.set(0);
+    		RobotMap.elevator2.set(0);
     	}
     	//Rotate External Arm
     	while (schtick.getRawButton(4)) {
     		RobotMap.extArm.set(0.5);
     	}
+    	RobotMap.extArm.set(0);
     	//Rotate External Arm the other way
     	while (schtick.getRawButton(5)) {
     		RobotMap.extArm.set(-0.5);
     	}
+    	RobotMap.extArm.set(0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
