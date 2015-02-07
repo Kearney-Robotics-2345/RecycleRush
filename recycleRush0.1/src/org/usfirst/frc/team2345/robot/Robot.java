@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team2345.robot.commands.ExampleCommand;
+import org.usfirst.frc.team2345.robot.commands.autonomousIndependent;
 import org.usfirst.frc.team2345.robot.commands.swerveDrive;
 import org.usfirst.frc.team2345.robot.commands.teleopFunctions;
 import org.usfirst.frc.team2345.robot.commands.zeroEncoders;
@@ -39,7 +40,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         // instantiate the command used for the autonomous period
-        autonomousCommand = new ExampleCommand();
+        autonomousCommand = new autonomousIndependent();
         driveCommand = new swerveDrive();
         teleopFunctions = new teleopFunctions();
     }
