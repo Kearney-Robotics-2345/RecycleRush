@@ -70,7 +70,9 @@ public class swerveDrive extends Command {
     	double A = Math.abs(strX);
     	double B = Math.abs(strY);
  		
-    	double theta = Math.toDegrees(Math.atan(B/A));
+    	double theta = Math.toDegrees(Math.atan2(strY,strX));
+    	
+    	theta += 90;
     	
     	final double encoderToDegreeFactor = 1.15278;
     	
@@ -78,9 +80,8 @@ public class swerveDrive extends Command {
     	double ULEnc = RobotMap.upLeftEnc.get() * encoderToDegreeFactor;
     	double DREnc = RobotMap.downRightEnc.get() * encoderToDegreeFactor;
     	double DLEnc = RobotMap.downLeftEnc.get() * encoderToDegreeFactor;
-    	
     	//This code determines which direction steer motors have to go to reach target
-    	if (Math.abs(theta - UREnc) <= 4 && Math.abs(theta - UREnc) >= -4) {
+    	if (theta - UREnc < 4 && theta - UREnc > -4) {
     		directionUR = 0;
     	} else if (theta > UREnc) {
     		directionUR = 1;
@@ -121,7 +122,7 @@ public class swerveDrive extends Command {
     		directionDL = 0;
     	}
     	//Change the positive theta to a corresponding value
-    	double turnAngleUR = theta * directionUR;
+    	double turnAngleUR = theta; //* directionUR;
     	double turnAngleUL = theta * directionUL;
     	double turnAngleDR = theta * directionDR;
     	double turnAngleDL = theta * directionDL;
@@ -131,10 +132,11 @@ public class swerveDrive extends Command {
     	double turnCommandDR;
     	double turnCommandDL;
     	//Determine the motors speeds...speed is decreased as the current angle approaches target
-    	if ( turnAngleUR < 0) {
-    		turnCommandUR = (Math.abs(turnAngleUR - UREnc) > 45) ? -0.5 :(Math.abs(theta - UREnc) * directionUR);
-    	} else if( turnAngleUR > 0) {
-    		turnCommandUR = (Math.abs(turnAngleUR - UREnc) > 45) ? 0.5 :(Math.abs(theta - UREnc) * directionUR);
+    	if ( turnAngleUR > 0) {
+    		turnCommandUR = -0.5;
+    		//turnCommandUR = (Math.abs(turnAngleUR - UREnc) > 60) ? -0.5 :(Math.abs(theta - UREnc) / 60) * -1; //* directionUR);
+    	} else if( turnAngleUR < 0) {
+    		turnCommandUR = 0.5; //turnCommandUR = (Math.abs(turnAngleUR - UREnc) > 60) ? 0.5 :(Math.abs(theta - UREnc) / 60) * 1;// * directionUR);
     	} else {
     		//Prevent nasty math from screwing up the robot ie: it prevents robot from moving
     		turnCommandUR = 0;
@@ -165,9 +167,26 @@ public class swerveDrive extends Command {
     	}
     	//Set motors to calculated values
     	RobotMap.upRightTurn.set(turnCommandUR);
-    	RobotMap.upLeftTurn.set(turnCommandUL);
-    	RobotMap.downRightTurn.set(turnCommandDR);
-    	RobotMap.downLeftTurn.set(turnCommandDL);
+    	//RobotMap.upLeftTurn.set(turnCommandUL);
+    	//RobotMap.downRightTurn.set(turnCommandDR);
+    	//RobotMap.downLeftTurn.set(turnCommandDL);
+    	
+    	SmartDashboard.putNumber("wA1", turnAngleUR);
+    	SmartDashboard.putNumber("wA2", turnAngleUL);
+    	SmartDashboard.putNumber("wA3", turnAngleDR);
+    	SmartDashboard.putNumber("wA4", turnAngleDL);
+    	SmartDashboard.putNumber("wA1", turnAngleUR);
+    	SmartDashboard.putNumber("uR", turnAngleUR);
+    	SmartDashboard.putNumber("dR", turnAngleDR);
+    	SmartDashboard.putNumber("uL", turnAngleUL);
+    	SmartDashboard.putNumber("dL", turnAngleUR);
+    	SmartDashboard.putNumber("uRC", turnCommandUR);
+    	SmartDashboard.putNumber("dRC", turnCommandDR);
+    	SmartDashboard.putNumber("uLC", turnCommandUL);
+    	SmartDashboard.putNumber("dLC", turnCommandUR);
+
+
+    	
 
     	
     	
@@ -194,10 +213,10 @@ public class swerveDrive extends Command {
     		rightDrive = 0;
     	}
     	//Set drive motor speeds
-    	RobotMap.upRightDrive.set(rightDrive);
-    	RobotMap.downRightDrive.set(rightDrive);
-    	RobotMap.upLeftDrive.set(leftDrive);
-    	RobotMap.downLeftDrive.set(leftDrive);
+    	//RobotMap.upRightDrive.set(rightDrive);
+    	//RobotMap.downRightDrive.set(rightDrive);
+    	//RobotMap.upLeftDrive.set(leftDrive);
+    	//RobotMap.downLeftDrive.set(leftDrive);
     	//#Win #SWEG
     	
  			commandStatus = true;
