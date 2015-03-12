@@ -1,6 +1,9 @@
 package org.usfirst.frc.team2345.robot.commands;
 
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team2345.robot.*;
@@ -22,9 +25,65 @@ public class teleopFunctions extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+
+    	// lift elevator while button three is pressed - Jon's code
+    	double elevatorOne;
+    	
+    	if (OI.schshtick.getRawButton(3) == true && OI.schshtick.getRawButton(2) == false) {
+    		elevatorOne = (RobotMap.elevatorSwitch1.get()) ? .7 : 0;
+    	}
+    	else if (OI.schshtick.getRawButton(2) == true && OI.schshtick.getRawButton(3) == false) {
+    		elevatorOne = (RobotMap.elevatorSwitch2.get()) ? -.7 : 0;
+    	}
+    	else {
+    		elevatorOne = 0;
+    	}
+
+    	RobotMap.elevator1.set(elevatorOne);
+    	
+    	//Michael was useful 
+    	/*if (stick.getRawButton(6) == true) {
+    		//RobotMap.swiffer.set(Relay.Value. kReverse);
+    	}*/
+    	
+    	// /*
+    	//Arm that flips things (There is an easier way to do things, this is just quick code)
+    	Value flipArmV;
+    	
+    	if (OI.schshtick.getRawButton(4) == true && OI.schshtick.getRawButton(4) == false) {
+    		//flipArmV = 1;
+    		flipArmV = Relay.Value. kForward;
+    	}
+    	else if (OI.schshtick.getRawButton(5) == true && OI.schshtick.getRawButton(5) == false) {
+    		//flipArmV = -1;
+    		flipArmV = Relay.Value. kReverse;
+    	}
+    	else {
+    		//flipArmV = 0;
+    		flipArmV = Relay.Value. kOff;
+    	}
+    	
+    	RobotMap.flipArm.set(flipArmV);
+    	
+    	//CAMERA CODE
+    	//if (OI.stick.getRawButton(1) == true) {
+    		//RobotMap.usbCamera.startAutomaticCapture("cam2");
+    	//}
+    	//if (OI.stick.getRawButton(2) == false) {
+    		//RobotMap.ipCamera.startAutomaticCapture("cam1");
+    	//}
+    	
+    	// */
+    	
+    	
+    	/*if(stick.getRawButton(4) == true){
+    		noodleBrush.set(1);
+    	}else{
+    		noodleBrush.set(0);
+    	}*/
     	
     	//Lift 13in (Via limit switch)
-    	if (stick.getRawButton(3) == true) {
+    	/*if (stick.getRawButton(3) == true) {
     		boolean loopControl = false;
     		while (loopControl != true) {	
     			RobotMap.elevator1.set(0.5);
@@ -71,6 +130,7 @@ public class teleopFunctions extends Command {
     		RobotMap.elevator1.set(0);
     		RobotMap.elevator2.set(0);
     	}
+    	//allahu akbar
     	//Up Completely
     	if (schtick.getRawButton(3) == true) {
     		int loopControl = 0;
@@ -94,18 +154,26 @@ public class teleopFunctions extends Command {
     		}
     		RobotMap.elevator1.set(0);
     		RobotMap.elevator2.set(0);
-    	}
+    		
+    	}*/
     	//Rotate External Arm
-    	while (schtick.getRawButton(4)) {
+    	/*while (OI.schshtick.getRawButton(4)) {
     		RobotMap.extArm.set(0.5);
     	}
     	RobotMap.extArm.set(0);
     	//Rotate External Arm the other way
-    	while (schtick.getRawButton(5)) {
+    	while (OI.schshtick.getRawButton(5)) {
     		RobotMap.extArm.set(-0.5);
     	}
-    	RobotMap.extArm.set(0);
+    	RobotMap.extArm.set(0);*/
+    	/*
+    	while (OI.schshtick.getZ() > 50) {
+    		RobotMap.swiffer.set(Relay.Value.kForward);
+    	}
+    	RobotMap.swiffer.set(Relay.Value.kOff);
+    	*/
     }
+    
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

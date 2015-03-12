@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2345.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -13,7 +14,11 @@ import org.usfirst.frc.team2345.robot.commands.autonomousIndependent;
 import org.usfirst.frc.team2345.robot.commands.swerveDrive;
 import org.usfirst.frc.team2345.robot.commands.teleopFunctions;
 import org.usfirst.frc.team2345.robot.commands.zeroEncoders;
+import org.usfirst.frc.team2345.robot.commands.cameraCommand;
 import org.usfirst.frc.team2345.robot.subsystems.ExampleSubsystem;
+
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,16 +27,17 @@ import org.usfirst.frc.team2345.robot.subsystems.ExampleSubsystem;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends IterativeRobot { 
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static final Subsystem driveSystem = new org.usfirst.frc.team2345.robot.subsystems.driveSystem();
 	public static OI oi;
 
-    Command autonomousCommand;
+    Command autonomousCommand; 
     Command driveCommand;
     Command testCommand;
     Command teleopFunctions;
+    Command cameraCommand;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -39,10 +45,21 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 		oi = new OI();
+		
         // instantiate the command used for the autonomous period
         autonomousCommand = new autonomousIndependent();
+        //
         driveCommand = new swerveDrive();
         teleopFunctions = new teleopFunctions();
+        cameraCommand = new cameraCommand();
+        RobotMap.usbCamera.setQuality(37);
+        RobotMap.usbCamera.startAutomaticCapture("cam1");
+
+        
+       // CameraServer camera = CameraServer.getInstance();
+       // camera.setQuality(50);
+       // camera.startAutomaticCapture("cam1");
+        
     }
 	
 	public void disabledPeriodic() {
@@ -51,9 +68,11 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
-    	if (driveCommand != null) driveCommand.cancel();
-    	if (teleopFunctions != null) teleopFunctions.cancel();
-    	if (autonomousCommand != null) autonomousCommand.start();
+    	driveCommand.cancel();
+    	teleopFunctions.cancel();
+    	/*if (autonomousCommand != null)*/ 
+    	autonomousCommand.start();
+    	cameraCommand.cancel();
     }
 
     /**
@@ -69,9 +88,10 @@ public class Robot extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();
-        if (driveCommand != null) driveCommand.start();
-        if (teleopFunctions != null) teleopFunctions.start();
+        /*if (autonomousCommand != null)*/ autonomousCommand.cancel();
+        /*if (driveCommand != null)*/ driveCommand.start();
+        /*if (teleopFunctions != null)*/ teleopFunctions.start();
+        cameraCommand.start();
     }
 
     /**

@@ -13,8 +13,9 @@ import org.usfirst.frc.team2345.robot.commands.ExampleCommand;
 public class OI {
 	public static Joystick stick = new Joystick(0);
 	public static Joystick schtick = new Joystick(1);
+	public static Joystick schshtick = new Joystick(2);
 	public static Button zeroEncoder = new JoystickButton(schtick, 7);
-	
+	//public static Button swiffer = new JoystickButton(schtick, 6);
 	//// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.
     // You create one by telling it which joystick it's on and which button
