@@ -14,25 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team2345.robot.RobotMap;
 
-/**
- *
- */
-//Test Comment
-
-/* Jon:
- * I am writing in commented pseudo code for the elevator.  I tried to do this in a copy,
- * but I could not create the copy to begin with.
- * I am commenting this code because my knowledgew of Java is minimal, and I do not want to risk 
- * breaking the robot or breaking code that we know works.
- * 
- * (by the way, the code is reversing left and right and clockwise and counterclockwise)
- * 
- * My three comments are on lines 55-58, 93-98, and 179-187
- * as well as ***-*** in the RobotMap.java section
- * 
- * please look over these sections and verify that they are syntactically correct for the code.
- * */
-
 public class swerveDrive extends Command {
 	double uRT;
     double uLT;
@@ -197,9 +178,6 @@ public class swerveDrive extends Command {
         
         double rampmod = OI.stick.getRawButton(3) ? .5 : 1;
         double rampmodX = OI.schtick.getRawButton(3) ? .25 : 1;
-         	
-        
-
         
         // I added a 0.7 to slow down the robot, as it was discovered that at full power, the robot would tip over.
         upLeftDrive.set(wheelSpeedTwo * 0.7 * rampmod * rampmodX); 
@@ -231,11 +209,6 @@ public class swerveDrive extends Command {
         double uLT = (Math.abs(uLE - wA2) > 80) ? 0.7 : (Math.abs(uLE - wA2)) / 70;
         double dLT = (Math.abs(dLE - wA3) > 80) ? 0.7 : (Math.abs(dLE - wA3)) / 70;
         double dRT = (Math.abs(dRE - wA4) > 80) ? 0.7 : (Math.abs(dRE - wA4)) / 70;
-             
-        //double uREm = (upRightEncoder < 0) ? -1 : 1;
-        //double uLEm = (upRightEncoder < 0) ? -1 : 1;
-        //double dLEm = (upRightEncoder < 0) ? -1 : 1;
-        //double dREm = (upRightEncoder < 0) ? -1 : 1;
 
         //takes motor power and mods from lesser angle code
         upRightTurn.set(uRT * uRTdr);
@@ -253,112 +226,6 @@ public class swerveDrive extends Command {
         SmartDashboard.putNumber("uLTC", (double) uLTC);
         SmartDashboard.putNumber("dLTC", (double) dLTC);
         SmartDashboard.putNumber("dRTC", (double) dRTC);
-        
-    	//}
-        /* Jon:
-        *
-        * //retrieve button values 2 and 3 on the stick controller
-        * boolean up = stick.get3();
-        * boolean down = stick.get2();
-        // end */  
-        
-        /*
-         * if (rcw != 0 && fwd != 0) {
-            if (rcw < -0.1) {
-                upRightDrive.set(wheelSpeedOne * 1.5);
-                downRightDrive.set(wheelSpeedFour * 1.5);
-                upLeftDrive.set(wheelSpeedTwo / -1.5);
-
-            } else if (rcw > 0.1) {
-                upLeftDrive.set(wheelSpeedTwo * 1.5);
-                downLeftDrive.set(wheelSpeedThree * 1.5);
-                upRightDrive.set(wheelSpeedOne / -1.5);
-        
-        /*if (Math.abs(upRightEncoder - wheelAngleOne) <= 180) {
-        uRTDir = -Math.signum(upRightEncoder - wheelAngleOne);
-    } else {
-        uRTDir = Math.signum(upRightEncoder - wheelAngleOne);
-    }
-    
-    if (Math.abs(upLeftEncoder - wheelAngleTwo) <= 180) {
-        uLTDir = -Math.signum(upLeftEncoder - wheelAngleTwo);
-    } else {
-        uLTDir = Math.signum(upLeftEncoder - wheelAngleTwo);
-    }
-    
-    if (Math.abs(downRightEncoder - wheelAngleFour) <= 180) {
-        dRTDir = -Math.signum(downRightEncoder - wheelAngleFour);
-    } else {
-        dRTDir = Math.signum(downRightEncoder - wheelAngleFour);
-    }
-    
-    if (Math.abs(downLeftEncoder - wheelAngleThree) <= 180) {
-        dLTDir = -Math.signum(downLeftEncoder - wheelAngleThree);
-    } else {
-        dLTDir = Math.signum(downLeftEncoder - wheelAngleThree);
-    }
-    
-    if (uRTDir == 1) {
-        uRT = (wheelAngleOne - upRightEncoder > 45) ? 1 : (wheelAngleOne - upRightEncoder) / 45;
-    } else if (uRTDir == -1) {
-        uRT = (wheelAngleOne - upRightEncoder > 45) ? -1 : -(wheelAngleOne - upRightEncoder) / 45;
-    } else {
-        uRT = 0;
-    }
-    
-    if (uLTDir == 1) {
-        uLT = (wheelAngleTwo - upLeftEncoder > 45) ? 1 : (wheelAngleTwo - upLeftEncoder) / 45;
-    } else if (uLTDir == -1) {
-        uLT = (wheelAngleTwo - upLeftEncoder > 45) ? -1 : -(wheelAngleTwo - upLeftEncoder) / 45;
-    } else {
-        uLT = 0;
-    }
-    
-    if (dRTDir == 1) {
-        dRT = (wheelAngleFour - downRightEncoder > 45) ? 1 : (wheelAngleFour - downRightEncoder) / 45;
-    } else if (dRTDir == -1) {
-        dRT = (wheelAngleFour - downRightEncoder > 45) ? -1 : -(wheelAngleFour - downRightEncoder) / 45;
-    } else {
-        dRT = 0;
-    }
-    
-    if (dLTDir == 1) {
-        dLT = (wheelAngleThree - downLeftEncoder > 45) ? 1 : (wheelAngleThree - downLeftEncoder) / 45;
-    } else if (dLTDir == -1) {
-        dLT = (wheelAngleThree - downLeftEncoder > 45) ? -1 : -(wheelAngleThree - downLeftEncoder) / 45;
-    } else {
-        dLT = 0;
-    }*/
-    
-    /* Jon:
-     * start
-     *
-     * if (up == true) {
-     * 		elevator = 1; // 1 is considered to be the value for "up".
-     * 		}
-     * else if (down == true) {
-     * 		elevator = -1; // =1 is considered to be the value for "down".
-     * 		}
-     * // end */
-        
-        //double uLT = (Math.abs(wheelAngleTwo - upLeftEncoder) > 45) ? 1 : (Math.abs(wheelAngleTwo - upLeftEncoder)) / 45;
-        //double uRT = (wheelAngleOne - upRightEncoder > 45) ? -1 : -(wheelAngleOne - upRightEncoder) / 45;
-        //double uLT = (Math.abs(wheelAngleTwo - upLeftEncoder) > 45) ? 1 : (Math.abs(wheelAngleTwo - upLeftEncoder)) / 45;
-        //double uRT = (wheelAngleOne - upRightEncoder > 45) ? -1 : -(wheelAngleOne - upRightEncoder) / 45;
-        //double uLT = (wheelAngleTwo - upLeftEncoder > 45) ? -1 : -(wheelAngleTwo - upLeftEncoder) / 45;
-        //double dLT = (wheelAngleThree - downLeftEncoder > 45) ? -1 : -(wheelAngleThree - downLeftEncoder) / 45;
-        //double dRT = (wheelAngleFour - downRightEncoder > 45) ? -1 : -(wheelAngleFour - downRightEncoder) / 45;
-        
-        
-   //double uREm = (upRightEncoder < 0) ? -1 : 1;
-   //double uLEm = (upRightEncoder < 0) ? -1 : 1;
-   //double dLEm = (upRightEncoder < 0) ? -1 : 1;
-   //double dREm = (upRightEncoder < 0) ? -1 : 1;
-        
-        //Serena-Turn Angle (Doesnt Work)
-        //double uRTtest =((wheelAngleOne - upRightEncoder) > (upRightEncoder - wheelAngleOne)) ? ((wheelAngleOne - upRightEncoder) > 45) ? -1 : -(Math.abs(wheelAngleOne - upRightEncoder) / 45)) : (Math.abs(upRightEncoder - wheelAngleOne) > 45) ? 1 : (Math.abs(upRightEncoder - wheelAngleOne) / 45);
-
-        
 
         commandStatus = true;
     }
@@ -370,15 +237,7 @@ public class swerveDrive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	/*RobotMap.downLeftDrive.set(0);
-    	RobotMap.downRightDrive.set(0);
-    	RobotMap.upLeftDrive.set(0);
-    	RobotMap.upRightDrive.set(0);
-    	RobotMap.upLeftTurn.set(0);
-    	RobotMap.upRightTurn.set(0);
-    	RobotMap.downLeftTurn.set(0);
-    	RobotMap.downRightTurn.set(0);
-    	*/
+
     }
 
     // Called when another command which requires one or more of the same
