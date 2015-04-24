@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2345.robot;
+ package org.usfirst.frc.team2345.robot;
 
 import java.awt.Image;
 
@@ -45,7 +45,7 @@ public class RobotMap {
     public static Victor elevator1 = new Victor(8);
     
     //FlipArm   --May become Talon/Spike?????
-    public static Relay flipArm = new Relay(1, Relay.Direction.kBoth);
+    public static Relay flipArm = new Relay(2, Relay.Direction.kBoth);
     
     //public static Victor swiffer = new Victor(12);
     

@@ -30,10 +30,10 @@ public class teleopFunctions extends Command {
     	double elevatorOne;
     	
     	if (OI.schshtick.getRawButton(3) == true && OI.schshtick.getRawButton(2) == false) {
-    		elevatorOne = (RobotMap.elevatorSwitch1.get()) ? .7 : 0;
+    		elevatorOne = (RobotMap.elevatorSwitch1.get()) ? .85 : 0;
     	}
     	else if (OI.schshtick.getRawButton(2) == true && OI.schshtick.getRawButton(3) == false) {
-    		elevatorOne = (RobotMap.elevatorSwitch2.get()) ? -.7 : 0;
+    		elevatorOne = (RobotMap.elevatorSwitch2.get()) ? -.85 : 0;
     	}
     	else {
     		elevatorOne = 0;
@@ -48,23 +48,21 @@ public class teleopFunctions extends Command {
     	
     	// /*
     	//Arm that flips things (There is an easier way to do things, this is just quick code)
-    	Value flipArmV;
     	
-    	if (OI.schshtick.getRawButton(4) == true && OI.schshtick.getRawButton(4) == false) {
+    	if (OI.schshtick.getRawButton(1) == true && OI.schshtick.getRawButton(4) == false) {
     		//flipArmV = 1;
-    		flipArmV = Relay.Value. kForward;
+    		RobotMap.flipArm.set(Relay.Value. kForward);
     	}
-    	else if (OI.schshtick.getRawButton(5) == true && OI.schshtick.getRawButton(5) == false) {
+    	else if (OI.schshtick.getRawButton(4) == true && OI.schshtick.getRawButton(1) == false) {
     		//flipArmV = -1;
-    		flipArmV = Relay.Value. kReverse;
+    		RobotMap.flipArm.set(Relay.Value. kReverse);
     	}
-    	else {
+    	else {//if (OI.schshtick.getRawButton(4) == false || OI.schshtick.getRawButton(5) == false){
     		//flipArmV = 0;
-    		flipArmV = Relay.Value. kOff;
+    		RobotMap.flipArm.set(Relay.Value. kOff);
     	}
     	
-    	RobotMap.flipArm.set(flipArmV);
-    	
+
     	//CAMERA CODE
     	//if (OI.stick.getRawButton(1) == true) {
     		//RobotMap.usbCamera.startAutomaticCapture("cam2");

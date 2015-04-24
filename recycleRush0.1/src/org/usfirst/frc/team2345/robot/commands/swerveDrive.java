@@ -99,10 +99,11 @@ public class swerveDrive extends Command {
     	double dLE = (downLeftEncoder < 0) ? 360 - Math.abs(downLeftEncoder % 360) : downLeftEncoder % 360; //downLeftEncoder %= 360;
     	double dRE = (downRightEncoder < 0) ? 360 - Math.abs(downRightEncoder % 360) : downRightEncoder % 360; //downRightEncoder %= 360;
     	
-    
+    	
+    	
     	double str = stick.getX() * Math.abs(stick.getX()) * -1; // stick.getThrottle();(forward/reverse command, -1 to +1)
         double fwd = stick.getY() * Math.abs(stick.getY()); // stick.getThrottle();(strafe right command, -1 to +1)
-        double rcw = schtick.getX() * Math.abs(schtick.getX()) * -1; // schtick.getThrottle();(rotate clockwise command, -1 to +1)
+        double rcw = schtick.getX() * Math.abs(schtick.getX()) * -1 ; // schtick.getThrottle();(rotate clockwise command, -1 to +1)
 
 
         //for any questions on code in lines 106-126, refer to Ether on cheif delphi
@@ -193,13 +194,18 @@ public class swerveDrive extends Command {
         }else{
         	dRTdr = 0;
         }
+        
+        double rampmod = OI.stick.getRawButton(3) ? .5 : 1;
+        double rampmodX = OI.schtick.getRawButton(3) ? .25 : 1;
+         	
+        
 
         
         // I added a 0.7 to slow down the robot, as it was discovered that at full power, the robot would tip over.
-        upLeftDrive.set(wheelSpeedTwo * 0.7); 
-        upRightDrive.set(wheelSpeedOne * 0.7);
-        downLeftDrive.set(wheelSpeedThree * 0.7);
-        downRightDrive.set(wheelSpeedFour * 0.7);
+        upLeftDrive.set(wheelSpeedTwo * 0.7 * rampmod * rampmodX); 
+        upRightDrive.set(wheelSpeedOne * 0.7 * rampmod * rampmodX);
+        downLeftDrive.set(wheelSpeedThree * 0.7 * rampmod * rampmodX);
+        downRightDrive.set(wheelSpeedFour * 0.7 * rampmod * rampmodX);
 
         SmartDashboard.putNumber("uL", (double) upLeftEnc.get());
         SmartDashboard.putNumber("uR", (double) upRightEnc.get());
@@ -221,10 +227,10 @@ public class swerveDrive extends Command {
         SmartDashboard.putNumber("dRe", (double) downRightEncoder);
         
         //exponetial decrease of motor input based on distance from wanted degree
-        double uRT = (Math.abs(uRE - wA1) > 60) ? 1 : (Math.abs(uRE - wA1)) / 60;
-        double uLT = (Math.abs(uLE - wA2) > 60) ? 1 : (Math.abs(uLE - wA2)) / 60;
-        double dLT = (Math.abs(dLE - wA3) > 60) ? 1 : (Math.abs(dLE - wA3)) / 60;
-        double dRT = (Math.abs(dRE - wA4) > 60) ? 1 : (Math.abs(dRE - wA4)) / 60;
+        double uRT = (Math.abs(uRE - wA1) > 80) ? 0.7 : (Math.abs(uRE - wA1)) / 70;
+        double uLT = (Math.abs(uLE - wA2) > 80) ? 0.7 : (Math.abs(uLE - wA2)) / 70;
+        double dLT = (Math.abs(dLE - wA3) > 80) ? 0.7 : (Math.abs(dLE - wA3)) / 70;
+        double dRT = (Math.abs(dRE - wA4) > 80) ? 0.7 : (Math.abs(dRE - wA4)) / 70;
              
         //double uREm = (upRightEncoder < 0) ? -1 : 1;
         //double uLEm = (upRightEncoder < 0) ? -1 : 1;
@@ -236,6 +242,17 @@ public class swerveDrive extends Command {
         upLeftTurn.set(uLT * uLTdr);
         downLeftTurn.set(dLT * dLTdr);
         downRightTurn.set(dRT * dRTdr);
+        
+        //DEBUGGING (yay)
+        double uRTC = uRT * uRTdr;
+        double uLTC = uLT * uLTdr;
+        double dLTC = dLT * dLTdr;
+        double dRTC = dRT * dRTdr;
+        
+        SmartDashboard.putNumber("uRTC", (double) uRTC);
+        SmartDashboard.putNumber("uLTC", (double) uLTC);
+        SmartDashboard.putNumber("dLTC", (double) dLTC);
+        SmartDashboard.putNumber("dRTC", (double) dRTC);
         
     	//}
         /* Jon:
@@ -348,7 +365,7 @@ public class swerveDrive extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return commandStatus;
     }
 
     // Called once after isFinished returns true

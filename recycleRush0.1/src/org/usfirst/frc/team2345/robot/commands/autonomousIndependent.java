@@ -15,19 +15,140 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class autonomousIndependent extends Command {
-	
-    Encoder upRightEnc = RobotMap.upRightEnc;
-    Encoder upLeftEnc = RobotMap.upLeftEnc;
-    Encoder downRightEnc = RobotMap.downRightEnc;
-    Encoder downLeftEnc = RobotMap.downLeftEnc;
 
     public autonomousIndependent() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
-
+    
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
+    	////REAL CODE
+    	RobotMap.upLeftTurn.set(0);
+    	RobotMap.upRightTurn.set(0);
+    	RobotMap.downRightTurn.set(0);
+    	RobotMap.downLeftTurn.set(0);
+    	
+    	RobotMap.elevator1.set(.7);
+    	Timer.delay(2);
+    	RobotMap.elevator1.set(0);
+    	
+    	//Move Back
+    	RobotMap.upLeftDrive.set(-.5);
+    	RobotMap.upRightDrive.set(-.5);
+    	RobotMap.downLeftDrive.set(-.5);
+    	RobotMap.downRightDrive.set(-.5);    	
+    	Timer.delay(2.75); 
+    	
+    	//Stop
+    	RobotMap.upLeftDrive.set(0);
+    	RobotMap.upRightDrive.set(0);
+    	RobotMap.downLeftDrive.set(0);
+    	RobotMap.downRightDrive.set(0);    	
+    	//Timer.delay(10);
+    	
+    	/*
+    	//move forward slightly and pick up the yellow tote
+    	
+    	RobotMap.upLeftDrive.set(-.05);
+    	RobotMap.upRightDrive.set(-.05);
+    	RobotMap.downLeftDrive.set(-.05);
+    	RobotMap.downRightDrive.set(-.05);
+    	RobotMap.elevator1.set(.7);
+    	Timer.delay(1);
+    	RobotMap.elevator1.set(0);
+    	
+    	//code from teleop to turn the wheels
+    	isComplete = false;
+    	double mult = 1.15278;
+    	//while (!isComplete) {
+    		double upRightEncoder = (upRightEnc.get() / mult);
+	     	double upLeftEncoder = (upLeftEnc.get() / mult);
+	     	double downRightEncoder = (downRightEnc.get() / mult);
+	     	double downLeftEncoder = (downLeftEnc.get() / mult);
+	     
+	     	double uRE = (upRightEncoder < 0) ? 360 - Math.abs(upRightEncoder % 360) : upRightEncoder % 360;
+	     	double uLE = (upLeftEncoder < 0) ? 360 - Math.abs(upLeftEncoder % 360) : upLeftEncoder % 360; //upLeftEncoder%= 360;
+	     	double dLE = (downLeftEncoder < 0) ? 360 - Math.abs(downLeftEncoder % 360) : downLeftEncoder % 360; //downLeftEncoder %= 360;
+	     	double dRE = (downRightEncoder < 0) ? 360 - Math.abs(downRightEncoder % 360) : downRightEncoder % 360; //downRightEncoder %= 360;
+	     	
+	        double wA1 = 360 - Math.abs(-90);
+	        double wA2 = 360 - Math.abs(-90);
+	        double wA3 = 360 - Math.abs(-90);
+	        double wA4 = 360 - Math.abs(-90);
+	        
+	     	//double uRT = (Math.abs(uRE - wA1) > 60) ? 1 : (Math.abs(uRE - wA1)) / 60;
+	        //double uLT = (Math.abs(uLE - wA2) > 60) ? 1 : (Math.abs(uLE - wA2)) / 60;
+	        //double dLT = (Math.abs(dLE - wA3) > 60) ? 1 : (Math.abs(dLE - wA3)) / 60;
+	        //double dRT = (Math.abs(dRE - wA4) > 60) ? 1 : (Math.abs(dRE - wA4)) / 60;
+	    	*/
+	       /* RobotMap.upLeftTurn.set(0.3);
+	        RobotMap.upRightTurn.set(0.3);
+	        RobotMap.downLeftTurn.set(0.3);
+	        RobotMap.downRightTurn.set(0.3);
+	        Timer.delay(0.2);
+	        RobotMap.upLeftTurn.set(0);
+	        RobotMap.upRightTurn.set(0);
+	        RobotMap.downLeftTurn.set(0);
+	        RobotMap.downRightTurn.set(0);
+	        */
+	        
+	        
+	    	/*if (uLE > 270){
+	    		RobotMap.upLeftTurn.set(uLT);
+	    	} else {
+	    		RobotMap.upLeftTurn.set(0);
+	    	}
+	    	
+	    	if (uRE > 270){
+	    		RobotMap.upRightTurn.set(uRT);
+	    	} else {
+	    		RobotMap.upRightTurn.set(0);
+	    	}    	
+	    	
+	    	if (dLE > 270){
+	    		RobotMap.downLeftTurn.set(dLT);
+	    	}else{
+	    		RobotMap.downLeftTurn.set(0);
+	    	}
+	    	
+	    	if (dRE > 270){
+	    		RobotMap.downRightTurn.set(dRT);
+	    	}else{
+	    		RobotMap.downRightTurn.set(0);
+	    	}*/
+	    	//JAVA IS AWESOME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	    	//if (260 < uLE && uLE < 270 && 260 < uRE && uRE < 270 && dLE < 260 && dLE < 270 && dRE < 260 && dRE < 270) { isComplete = true; }//!
+	    	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    	//}
+	    	/*
+	    RobotMap.upLeftDrive.set(0.3);
+	    RobotMap.downLeftDrive.set(0.3);
+	    RobotMap.upRightDrive.set(-0.3);
+	    RobotMap.downRightDrive.set(-0.3);
+	    	
+	    	
+    	Timer.delay(1);
+    	
+    	//drive forward, because the wheels are turned, this is strafe
+    	RobotMap.upLeftDrive.set(-.25);
+    	RobotMap.upRightDrive.set(-.25);
+    	RobotMap.downLeftDrive.set(-.25);
+    	RobotMap.downRightDrive.set(-.25);    	
+    	Timer.delay(8);
+    	
+    	//extra time
+    	RobotMap.upLeftDrive.set(0);
+    	RobotMap.upRightDrive.set(0);
+    	RobotMap.downLeftDrive.set(0);
+    	RobotMap.downRightDrive.set(0);    	
+    	Timer.delay(4);
+    	
+    	
+    	////END REAL CODE
+    	*/
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -95,96 +216,8 @@ public class autonomousIndependent extends Command {
         double elev3  = -.70;
         elevator1.set(elev3);
         Timer.delay(2);
-        */
-    	//Move Forward
-    	RobotMap.upLeftDrive.set(-.5);
-    	RobotMap.upRightDrive.set(-.5);
-    	RobotMap.downLeftDrive.set(-.5);
-    	RobotMap.downRightDrive.set(-.5);    	
-    	Timer.delay(.1);
-    	
-    	RobotMap.elevator1.set(.7);
-    	Timer.delay(2);
-    	
-    	//Move Forward
-    	RobotMap.upLeftDrive.set(-.5);
-    	RobotMap.upRightDrive.set(-.5);
-    	RobotMap.downLeftDrive.set(-.5);
-    	RobotMap.downRightDrive.set(-.5);    	
-    	Timer.delay(0.4);
-    	
-    	//move forward slightly and pick up the yellow tote
-    	
-    	RobotMap.upLeftDrive.set(-.05);
-    	RobotMap.upRightDrive.set(-.05);
-    	RobotMap.downLeftDrive.set(-.05);
-    	RobotMap.downRightDrive.set(-.05);
-    	RobotMap.elevator1.set(.7);
-    	Timer.delay(1);
-    	
-    	//code from teleop to turn the wheels
-    	double mult = 1.15278;
-    	
-    	double upRightEncoder = (upRightEnc.get() / mult);
-     	double upLeftEncoder = (upLeftEnc.get() / mult);
-     	double downRightEncoder = (downRightEnc.get() / mult);
-     	double downLeftEncoder = (downLeftEnc.get() / mult);
-     
-     	double uRE = (upRightEncoder < 0) ? 360 - Math.abs(upRightEncoder % 360) : upRightEncoder % 360;
-     	double uLE = (upLeftEncoder < 0) ? 360 - Math.abs(upLeftEncoder % 360) : upLeftEncoder % 360; //upLeftEncoder%= 360;
-     	double dLE = (downLeftEncoder < 0) ? 360 - Math.abs(downLeftEncoder % 360) : downLeftEncoder % 360; //downLeftEncoder %= 360;
-     	double dRE = (downRightEncoder < 0) ? 360 - Math.abs(downRightEncoder % 360) : downRightEncoder % 360; //downRightEncoder %= 360;
-     	
-        double wA1 = 360 - Math.abs(-90);
-        double wA2 = 360 - Math.abs(-90);
-        double wA3 = 360 - Math.abs(-90);
-        double wA4 = 360 - Math.abs(-90);
         
-     	double uRT = (Math.abs(uRE - wA1) > 60) ? 1 : (Math.abs(uRE - wA1)) / 60;
-        double uLT = (Math.abs(uLE - wA2) > 60) ? 1 : (Math.abs(uLE - wA2)) / 60;
-        double dLT = (Math.abs(dLE - wA3) > 60) ? 1 : (Math.abs(dLE - wA3)) / 60;
-        double dRT = (Math.abs(dRE - wA4) > 60) ? 1 : (Math.abs(dRE - wA4)) / 60;
-    	
-    	if (uLE > -90){
-    		RobotMap.upLeftTurn.set(uLT);
-    	}else{
-    		RobotMap.upLeftTurn.set(0);
-    	}
-    	
-    	if (uRE > -90){
-    		RobotMap.upRightTurn.set(uRT);
-    	}else{
-    		RobotMap.upRightTurn.set(0);
-    	}    	
-    	
-    	if (dLE > -90){
-    		RobotMap.downLeftTurn.set(dLT);
-    	}else{
-    		RobotMap.downLeftTurn.set(0);
-    	}
-    	
-    	if (dRE > -90){
-    		RobotMap.downRightTurn.set(dRT);
-    	}else{
-    		RobotMap.downRightTurn.set(0);
-    	}
-    	Timer.delay(1);
-    	
-    	//drive forward, because the wheels are turned, this is strafe
-    	RobotMap.upLeftDrive.set(-.5);
-    	RobotMap.upRightDrive.set(-.5);
-    	RobotMap.downLeftDrive.set(-.5);
-    	RobotMap.downRightDrive.set(-.5);    	
-    	Timer.delay(4);
-    	
-    	//extra time
-    	RobotMap.upLeftDrive.set(0);
-    	RobotMap.upRightDrive.set(0);
-    	RobotMap.downLeftDrive.set(0);
-    	RobotMap.downRightDrive.set(0);    	
-    	Timer.delay(8);
-    	
-    	
+    	*/
     	
     	
     	/*
@@ -393,6 +426,7 @@ public class autonomousIndependent extends Command {
     }
 
     //What are these for?
+    //boolean potatoFailSafe = false;
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
 		return false;
@@ -400,18 +434,18 @@ public class autonomousIndependent extends Command {
 
 	protected void end() {
 		// TODO Auto-generated method stub
-		/*RobotMap.upLeftTurn.set(0);
+		RobotMap.upLeftTurn.set(0);
 		RobotMap.upRightTurn.set(0);
 		RobotMap.downLeftTurn.set(0);
 		RobotMap.downRightTurn.set(0);
 		RobotMap.downLeftDrive.set(0);
 		RobotMap.upLeftDrive.set(0);
 		RobotMap.downRightDrive.set(0);
-		RobotMap.upRightDrive.set(0);*/
+		RobotMap.upRightDrive.set(0);
 	}
 
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-		
+		//potatoFailSafe = true;
 	}
 }
