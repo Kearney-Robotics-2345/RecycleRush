@@ -1,3 +1,6 @@
+//FRC Team-2345
+//Kearney Robotcs -- Animal Control
+
 package org.usfirst.frc.team2345.robot.commands;
 
 import org.usfirst.frc.team2345.robot.OI;
@@ -6,10 +9,8 @@ import org.usfirst.frc.team2345.robot.Robot;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team2345.robot.RobotMap;
