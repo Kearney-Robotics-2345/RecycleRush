@@ -1,3 +1,8 @@
+//FRC Team-2345
+//Kearney Robotics - Animal Control
+
+
+
 package org.usfirst.frc.team2345.robot.commands;
 
 import org.usfirst.frc.team2345.robot.OI;
