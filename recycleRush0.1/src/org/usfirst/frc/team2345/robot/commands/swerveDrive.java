@@ -184,12 +184,13 @@ public class swerveDrive extends Command {
         
         double rampmod = OI.stick.getRawButton(3) ? .5 : 1;
         double rampmodX = OI.schtick.getRawButton(3) ? .25 : 1;
+        double throttle = OI.stick.getZ();
         
         // I added a 0.7 to slow down the robot, as it was discovered that at full power, the robot would tip over.
-        upLeftDrive.set(wheelSpeedTwo * 0.7 * rampmod * rampmodX); 
-        upRightDrive.set(wheelSpeedOne * 0.7 * rampmod * rampmodX);
-        downLeftDrive.set(wheelSpeedThree * 0.7 * rampmod * rampmodX);
-        downRightDrive.set(wheelSpeedFour * 0.7 * rampmod * rampmodX);
+        upLeftDrive.set(wheelSpeedTwo * 0.7 * rampmod * rampmodX * throttle); 
+        upRightDrive.set(wheelSpeedOne * 0.7 * rampmod * rampmodX * throttle);
+        downLeftDrive.set(wheelSpeedThree * 0.7 * rampmod * rampmodX * throttle);
+        downRightDrive.set(wheelSpeedFour * 0.7 * rampmod * rampmodX * throttle);
 
         SmartDashboard.putNumber("uL", (double) upLeftEnc.get());
         SmartDashboard.putNumber("uR", (double) upRightEnc.get());
