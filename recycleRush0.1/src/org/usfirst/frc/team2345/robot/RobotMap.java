@@ -26,21 +26,21 @@ public class RobotMap {
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
 	// all turn motors initialize
-    public static Victor upLeftTurn = new Victor(7);
-    public static Victor upRightTurn = new Victor(3);			
-    public static Victor downLeftTurn = new Victor(5);
-    public static Victor downRightTurn = new Victor(1);
+    public static Victor upLeftTurn = new Victor(0);
+    public static Victor upRightTurn = new Victor(4);			
+    public static Victor downLeftTurn = new Victor(2);
+    public static Victor downRightTurn = new Victor(6);
     
     //all drive motors initialize 
-    public static Talon upLeftDrive = new Talon(6);
-    public static Talon upRightDrive = new Talon(2);
-    public static Talon downLeftDrive = new Talon(4);
-    public static Talon downRightDrive = new Talon(0);
+    public static Talon upLeftDrive = new Talon(1);
+    public static Talon upRightDrive = new Talon(5);
+    public static Talon downLeftDrive = new Talon(3);
+    public static Talon downRightDrive = new Talon(7);
     
-    public static Encoder upLeftEnc = new Encoder(6, 7);
+    public static Encoder upLeftEnc = new Encoder(0, 1);
     public static Encoder upRightEnc = new Encoder(2, 3);
     public static Encoder downLeftEnc = new Encoder(4, 5);
-    public static Encoder downRightEnc = new Encoder(0, 1);
+    public static Encoder downRightEnc = new Encoder(6, 7);
     
     public static Victor elevator1 = new Victor(8);
     
