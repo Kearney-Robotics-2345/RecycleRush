@@ -85,9 +85,9 @@ public class swerveDrive extends Command {
     	
     	
     	
-    	double str = stick.getX() * Math.abs(stick.getX()) * -1; // stick.getThrottle();(forward/reverse command, -1 to +1)
+    	double str = stick.getX() * Math.abs(stick.getX()); // stick.getThrottle();(forward/reverse command, -1 to +1)
         double fwd = stick.getY() * Math.abs(stick.getY()); // stick.getThrottle();(strafe right command, -1 to +1)
-        double rcw = schtick.getX() * Math.abs(schtick.getX()) * -1 ; // schtick.getThrottle();(rotate clockwise command, -1 to +1)
+        double rcw = schtick.getX() * Math.abs(schtick.getX()); // schtick.getThrottle();(rotate clockwise command, -1 to +1)
 
 
         //for any questions on code in lines 106-126, refer to Ether on cheif delphi
@@ -181,7 +181,7 @@ public class swerveDrive extends Command {
         
         double rampmod = OI.stick.getRawButton(3) ? .5 : 1;
         double rampmodX = OI.schtick.getRawButton(3) ? .25 : 1;
-        double throttle = OI.stick.getZ();
+        double throttle = (OI.stick.getZ() * -0.5) + 0.9;
         
         // I added a 0.7 to slow down the robot, as it was discovered that at full power, the robot would tip over.
         upLeftDrive.set(wheelSpeedTwo * 0.7 * rampmod * rampmodX * throttle); 
