@@ -49,11 +49,11 @@ public class teleopFunctions extends Command {
     	// /*
     	//Arm that flips things (There is an easier way to do things, this is just quick code)
     	
-    	if (OI.schshtick.getRawButton(1) == true && OI.schshtick.getRawButton(4) == false) {
+    	if (OI.stick.getRawButton(1) == true && OI.stick.getRawButton(4) == false) {
     		//flipArmV = 1;
     		RobotMap.flipArm.set(Relay.Value. kForward);
     	}
-    	else if (OI.schshtick.getRawButton(4) == true && OI.schshtick.getRawButton(1) == false) {
+    	else if (OI.stick.getRawButton(4) == true && OI.stick.getRawButton(1) == false) {
     		//flipArmV = -1;
     		RobotMap.flipArm.set(Relay.Value. kReverse);
     	}
