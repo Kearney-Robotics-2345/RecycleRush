@@ -16,13 +16,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team2345.robot.RobotMap;
-
+//Commented out code is left for posterities' sake
 public class swerveDrive extends Command {
-	double uRT;
-    double uLT;
-    double dRT;
-    double dLT;
-    double uRTDir;
+	double uRT;		//Upper Right Turn
+    double uLT;		//Upper Left Turn
+    double dRT;		//Down Right Turn
+    double dLT;		//Down Left Turn
+    //leftover code. Delete?
+    double uRTDir;	
     double uLTDir;
     double dRTDir;
     double dLTDir;
@@ -40,20 +41,17 @@ public class swerveDrive extends Command {
     Victor upRightTurn = RobotMap.upRightTurn;
     Victor downLeftTurn = RobotMap.downLeftTurn;
     Victor downRightTurn = RobotMap.downRightTurn;
-    /* Jon:
-    *
-    * Victor elevator = RobotMap.elevator1;
-    // end*/
 
     //all joystick code
-    Joystick stick = OI.stick;
-    Joystick schtick = OI.schtick;
-
+    Joystick stick = OI.stick;		//Enables joystick 1
+    Joystick schtick = OI.schtick;	//Enables joystick 2
+    //calls encoders from Robot Map
     Encoder upRightEnc = RobotMap.upRightEnc;
     Encoder upLeftEnc = RobotMap.upLeftEnc;
     Encoder downRightEnc = RobotMap.downRightEnc;
     Encoder downLeftEnc = RobotMap.downLeftEnc;
  
+    //Math to determine hypotenues of frame
     static int l = 17;//19; //(wheelbase, inches)
     
     static int w = 31;//32; //(trackwidth, inches)
@@ -77,7 +75,7 @@ public class swerveDrive extends Command {
     	double downRightEncoder = (downRightEnc.get() / mult);
     	double downLeftEncoder = (downLeftEnc.get() / mult);
     
-    	//fixes the problem of negative ticks on the encoder converting to inverted degrees(-1* translates to 1* opposed to 359* before
+    	//fixes the problem of negative ticks on the encoder converting to inverted degrees(-1* translates to 359* opposed to -1* before)
     	double uRE = (upRightEncoder < 0) ? 360 - Math.abs(upRightEncoder % 360) : upRightEncoder % 360;
     	double uLE = (upLeftEncoder < 0) ? 360 - Math.abs(upLeftEncoder % 360) : upLeftEncoder % 360; //upLeftEncoder%= 360;
     	double dLE = (downLeftEncoder < 0) ? 360 - Math.abs(downLeftEncoder % 360) : downLeftEncoder % 360; //downLeftEncoder %= 360;
@@ -90,7 +88,7 @@ public class swerveDrive extends Command {
         double rcw = schtick.getX() * Math.abs(schtick.getX()); // schtick.getThrottle();(rotate clockwise command, -1 to +1)
 
 
-        //for any questions on code in lines 106-126, refer to Ether on cheif delphi
+        //for any questions on code in lines 106-126, refer to Ether on cheif delphi, because thats where we got this trig sorcery
         //math for finding the degrees of all the wheels and their vectors
         double A = str-rcw*(l/r);
         double B = str+rcw*(l/r);
@@ -188,7 +186,8 @@ public class swerveDrive extends Command {
         upRightDrive.set(wheelSpeedOne * 0.7 * rampmod * rampmodX * throttle);
         downLeftDrive.set(wheelSpeedThree * 0.7 * rampmod * rampmodX * throttle);
         downRightDrive.set(wheelSpeedFour * 0.7 * rampmod * rampmodX * throttle);
-
+        
+        // This displays inputs and outputs on the Dashboard for troubleshooting purposes
         SmartDashboard.putNumber("uL", (double) upLeftEnc.get());
         SmartDashboard.putNumber("uR", (double) upRightEnc.get());
         SmartDashboard.putNumber("dL", (double) downLeftEnc.get());
@@ -208,7 +207,7 @@ public class swerveDrive extends Command {
         SmartDashboard.putNumber("dLe", (double) downLeftEncoder);
         SmartDashboard.putNumber("dRe", (double) downRightEncoder);
         
-        //exponetial decrease of motor input based on distance from wanted degree
+        //exponential decrease of motor input based on distance from wanted degree
         double uRT = (Math.abs(uRE - wA1) > 80) ? 0.7 : (Math.abs(uRE - wA1)) / 70;
         double uLT = (Math.abs(uLE - wA2) > 80) ? 0.7 : (Math.abs(uLE - wA2)) / 70;
         double dLT = (Math.abs(dLE - wA3) > 80) ? 0.7 : (Math.abs(dLE - wA3)) / 70;

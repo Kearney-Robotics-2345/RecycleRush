@@ -8,9 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team2345.robot.*;
 
-/**
- *
- */
+// Commented out code left for posterities' sake
 public class teleopFunctions extends Command {
 	Joystick stick = OI.stick;
 	Joystick schtick = OI.schtick;
@@ -26,22 +24,36 @@ public class teleopFunctions extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 
-    	// lift elevator while button three is pressed - Jon's code
-    	double elevatorOne;
+    	// lift elevator while button three is pressed
+    	double elevatorLeft;
     	
-    	if (OI.schshtick.getRawButton(3) == true && OI.schshtick.getRawButton(2) == false) {
-    		elevatorOne = (RobotMap.elevatorSwitch1.get()) ? .85 : 0;
+    	if (OI.schshtick.getRawButton(2) == true && OI.schshtick.getRawButton(1) == false) {
+    		elevatorLeft = (RobotMap.elevatorSwitch1.get()) ? .85 : 0;
     	}
-    	else if (OI.schshtick.getRawButton(2) == true && OI.schshtick.getRawButton(3) == false) {
-    		elevatorOne = (RobotMap.elevatorSwitch2.get()) ? -.85 : 0;
+    	else if (OI.schshtick.getRawButton(1) == true && OI.schshtick.getRawButton(2) == false) {
+    		elevatorLeft = (RobotMap.elevatorSwitch2.get()) ? -.85 : 0;
     	}
     	else {
-    		elevatorOne = 0;
+    		elevatorLeft = 0;
     	}
-
-    	RobotMap.elevator1.set(elevatorOne);
     	
-    	//Michael was useful 
+    	double elevatorRight;
+    	
+    	if (OI.schshtick.getRawButton(4) == true && OI.schshtick.getRawButton(3) == false) {
+    		elevatorRight = (RobotMap.elevatorSwitch1.get()) ? .75 : 0;
+    	}
+    	else if (OI.schshtick.getRawButton(3) == true && OI.schshtick.getRawButton(4) == false) {
+    		elevatorRight = (RobotMap.elevatorSwitch2.get()) ? -.75 : 0;
+    	}
+    	else {
+    		elevatorRight = 0;
+    	}
+    	
+    	
+
+    	RobotMap.elevator1.set(elevatorLeft);
+    	RobotMap.elevatorright.set(elevatorRight);
+    	
     	/*if (stick.getRawButton(6) == true) {
     		//RobotMap.swiffer.set(Relay.Value. kReverse);
     	}*/
@@ -49,17 +61,18 @@ public class teleopFunctions extends Command {
     	// /*
     	//Arm that flips things (There is an easier way to do things, this is just quick code)
     	
-    	if (OI.stick.getRawButton(1) == true && OI.stick.getRawButton(4) == false) {
+    	if (OI.stick.getRawButton(5) == true && OI.stick.getRawButton(4) == false) {
     		//flipArmV = 1;
-    		RobotMap.flipArm.set(Relay.Value. kForward);
+    		RobotMap.flipArm.set(Relay.Value.kOn);
+    		RobotMap.flipArm.set(Relay.Value.kReverse);
     	}
-    	else if (OI.stick.getRawButton(4) == true && OI.stick.getRawButton(1) == false) {
+    	else if (OI.stick.getRawButton(4) == true && OI.stick.getRawButton(5) == false) {
     		//flipArmV = -1;
-    		RobotMap.flipArm.set(Relay.Value. kReverse);
+    		RobotMap.flipArm.set(Relay.Value.kForward);
     	}
     	else {//if (OI.schshtick.getRawButton(4) == false || OI.schshtick.getRawButton(5) == false){
     		//flipArmV = 0;
-    		RobotMap.flipArm.set(Relay.Value. kOff);
+    		RobotMap.flipArm.set(Relay.Value.kOff);
     	}
     	
 
