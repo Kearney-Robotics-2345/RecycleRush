@@ -23,16 +23,16 @@ public class autonomousIndependent extends Command {
     
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+    /*	
     	////REAL CODE
     	RobotMap.upLeftTurn.set(0);
     	RobotMap.upRightTurn.set(0);
     	RobotMap.downRightTurn.set(0);
     	RobotMap.downLeftTurn.set(0);
     	
-    	RobotMap.elevator1.set(.7);
+    	RobotMap.elevatorLeft.set(.7);
     	Timer.delay(2);
-    	RobotMap.elevator1.set(0);
+    	RobotMap.elevatorLeft.set(0);
     	
     	//Move Back
     	RobotMap.upLeftDrive.set(-.5);
@@ -46,7 +46,7 @@ public class autonomousIndependent extends Command {
     	RobotMap.upRightDrive.set(0);
     	RobotMap.downLeftDrive.set(0);
     	RobotMap.downRightDrive.set(0);    	
-    	
+*/    	
     }
 
     // Called repeatedly when this Command is scheduled to run

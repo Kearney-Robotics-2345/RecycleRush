@@ -27,7 +27,10 @@ public class teleopFunctions extends Command {
     	// lift elevator while button three is pressed
     	double elevatorLeft;
     	double elevatorRight;
-    	/*
+    	
+    	double joystickLeft = OI.schshtick.getRawAxis(1);
+    	double joystickRight = OI.schshtick.getRawAxis(5) * -1;
+    	
     	if (OI.schshtick.getRawButton(2) == true && OI.schshtick.getRawButton(1) == false) {
     		elevatorLeft = (RobotMap.elevatorSwitch1.get()) ? 1 : 0;
     	}
@@ -48,14 +51,29 @@ public class teleopFunctions extends Command {
     	else {
     		elevatorRight = 0;
     	}
-    	*/
     	
-    	elevatorLeft = OI.schshtick.getRawAxis(1);
-    	elevatorRight = OI.schshtick.getRawAxis(5) * -1;
+    	/*
+    	 if (joystickRight < 0) {
+    		if (RobotMap.elevatorSwitch1.get()) {
+    			elevatorRight = 0;
+    		} else {
+    			elevatorRight = joystickRight;
+    		}
+    	} else if (joystickRight > 0) {
+    		if (RobotMap.elevatorSwitch2.get()) {
+    			elevatorRight = 0;
+    		} else {
+    			elevatorRight = joystickRight;
+    		}
+    	} else {
+    		elevatorRight = 0;
+    	}*/
+    	
+    	elevatorLeft = joystickLeft;
     	
 
-    	RobotMap.elevator1.set(elevatorLeft);
-    	RobotMap.elevatorright.set(elevatorRight);
+    	RobotMap.elevatorLeft.set(elevatorLeft);
+    	RobotMap.elevatorRight.set(elevatorRight);
     	
     	/*if (stick.getRawButton(6) == true) {
     		//RobotMap.swiffer.set(Relay.Value. kReverse);
