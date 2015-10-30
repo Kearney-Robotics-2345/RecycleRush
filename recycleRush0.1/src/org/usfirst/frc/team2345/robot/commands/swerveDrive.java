@@ -83,7 +83,7 @@ public class swerveDrive extends Command {
     	
     	
     	
-    	double str = stick.getX() * Math.abs(stick.getX()); // stick.getThrottle();(forward/reverse command, -1 to +1)
+    	double str = stick.getX() * Math.abs(stick.getX()) * -1; // stick.getThrottle();(forward/reverse command, -1 to +1)
         double fwd = stick.getY() * Math.abs(stick.getY()); // stick.getThrottle();(strafe right command, -1 to +1)
         double rcw = schtick.getX() * Math.abs(schtick.getX()); // schtick.getThrottle();(rotate clockwise command, -1 to +1)
 

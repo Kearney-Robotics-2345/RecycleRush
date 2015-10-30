@@ -43,8 +43,8 @@ public class RobotMap {
     public static Encoder downLeftEnc = new Encoder(4, 5);
     public static Encoder downRightEnc = new Encoder(6, 7);
     
-    public static Victor elevator1 = new Victor(9);
-    public static Victor elevatorright = new Victor(8);
+    public static Victor elevator1 = new Victor(8);
+    public static Victor elevatorright = new Victor(9);
     
     
     //FlipArm 

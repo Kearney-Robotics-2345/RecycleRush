@@ -26,9 +26,10 @@ public class teleopFunctions extends Command {
 
     	// lift elevator while button three is pressed
     	double elevatorLeft;
-    	
+    	double elevatorRight;
+    	/*
     	if (OI.schshtick.getRawButton(2) == true && OI.schshtick.getRawButton(1) == false) {
-    		elevatorLeft = (RobotMap.elevatorSwitch1.get()) ? .85 : 0;
+    		elevatorLeft = (RobotMap.elevatorSwitch1.get()) ? 1 : 0;
     	}
     	else if (OI.schshtick.getRawButton(1) == true && OI.schshtick.getRawButton(2) == false) {
     		elevatorLeft = (RobotMap.elevatorSwitch2.get()) ? -.85 : 0;
@@ -37,18 +38,20 @@ public class teleopFunctions extends Command {
     		elevatorLeft = 0;
     	}
     	
-    	double elevatorRight;
     	
     	if (OI.schshtick.getRawButton(4) == true && OI.schshtick.getRawButton(3) == false) {
-    		elevatorRight = (RobotMap.elevatorSwitch1.get()) ? .75 : 0;
+    		elevatorRight = (RobotMap.elevatorSwitch1.get()) ? .85 : 0;
     	}
     	else if (OI.schshtick.getRawButton(3) == true && OI.schshtick.getRawButton(4) == false) {
-    		elevatorRight = (RobotMap.elevatorSwitch2.get()) ? -.75 : 0;
+    		elevatorRight = (RobotMap.elevatorSwitch2.get()) ? -.85 : 0;
     	}
     	else {
     		elevatorRight = 0;
     	}
+    	*/
     	
+    	elevatorLeft = OI.schshtick.getRawAxis(1);
+    	elevatorRight = OI.schshtick.getRawAxis(5) * -1;
     	
 
     	RobotMap.elevator1.set(elevatorLeft);
