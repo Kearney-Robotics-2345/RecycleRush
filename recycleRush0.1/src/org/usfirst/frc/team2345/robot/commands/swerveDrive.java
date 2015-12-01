@@ -2,7 +2,7 @@
 //Kearney Robotcs -- Animal Control
 //Kearney Robotics - Animal Control
 //RecycleRush 2015
-
+//Science is not just a physics; it is a good.
 package org.usfirst.frc.team2345.robot.commands;
 
 import org.usfirst.frc.team2345.robot.OI;
@@ -85,7 +85,7 @@ public class swerveDrive extends Command {
     	
     	double str = stick.getX() * Math.abs(stick.getX()) * -1; // stick.getThrottle();(forward/reverse command, -1 to +1)
         double fwd = stick.getY() * Math.abs(stick.getY()); // stick.getThrottle();(strafe right command, -1 to +1)
-        double rcw = schtick.getX() * Math.abs(schtick.getX()); // schtick.getThrottle();(rotate clockwise command, -1 to +1)
+        double rcw = schtick.getX() * Math.abs(schtick.getX()) * -1; // schtick.getThrottle();(rotate clockwise command, -1 to +1)
 
 
         //for any questions on code in lines 106-126, refer to Ether on cheif delphi, because thats where we got this trig sorcery
